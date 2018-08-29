@@ -1,12 +1,14 @@
 # bot.py
+# v 2.0 -beta
 
 import discord
+from discord.ext.commands import Bot
+from discord.ext import commands
 import asyncio
 import os
 
+# local imports
 import builds
-#import monitors
-
 
 ##########################################################
 ##########################################################
@@ -16,115 +18,101 @@ import builds
 ##########################################################
 ##########################################################
 
-# Get Token from Heroku env. vars
-# you now it helps not to print your private keys
+
+# Server channels whitelist
+whitelist = [
+    "466149664383565827",  # test server main
+    "418758155078598666",  # gramers-sklhra
+    "468208302875213825",  # meh
+    "467344493449052170",  # test server  beta
+]
+
+# initialise bot
+bot = Bot(command_prefix='$')
+
 token = os.environ['TOKEN']
 
 
-whitelist = [
-    "466149664383565827",   # test server
-    "418758155078598666",   # gramers
-    "468208302875213825",   # meh
-]
+###############################################
+###############################################
+###############################################
+
+@bot.command(pass_context=True)
+async def pc(context, price: int, *args):
+    ''''''
+    # Check if message in whitelisted channel
+    if context.message.channel.id not in whitelist:
+        return
+    print(context.message.channel.id, 'Requested: ')
+    print('args: ', args)
+    print('price :', price)
+
+    answer = builds. \
+        getClosest(price, args). \
+        getSpecs()
+
+    if answer:
+        await bot.say(answer)
+    else:
+        await bot.say(":thinking: :hugging: :fox: ")
+
+    return
 
 
-def RepresentsInt(s):
-    '''Check if a string is an interger'''
-    try:
-        int(s)
-        return True
-    except ValueError:
-        return False
+###############################################
+
+@bot.command(pass_context=True)
+async def pc_info(context):
+    # Check if message in whitelisted channel
+    if context.message.channel.id not in whitelist:
+        return
+
+    await bot.say(
+        """Thank <@!133245022719049728> for giving me life (coding) :purple_heart: :purple_heart: :purple_heart: !,
+        Thank <@!419166458489339935> for giving me food :apple: (making the builds)
+        Thank <@!332970862150156289> for cleaning my :poop:
+        Thank <@!372150009694650370>  my mother for doing nothing, nothing at all ,0 :cat: ,
+
+        https://github.com/purpl3F0x/pc-bot-2
+        `Pc Bot v2.0-beta`
+        """
+    )
+
+    return
 
 
-client = discord.Client()  # init connection to server
+###############################################
 
-
-# Well my code has met greater days but... It gets the job done for now
-
-@client.event
+@bot.event
 async def on_ready():
     print('Logged in as')
-    print(client.user.name)
-    print(client.user.id)
-    print('------')
+    print(bot.user.name)
+    print(bot.user.id)
+    print('-' * 42)
 
 
-####### Thiz is were magik bigens :P :P
-@client.event
-async def on_message(message):
-    print(message.content)
-
-    if message.content.startswith('!pc') and (message.channel.id in whitelist):
-        if message.content == ('!pc all'):  # That's for debuging only
-            for b in builds.builds:
-                await client.send_message(message.channel, str(b))
-            await client.send_message(message.channel,
-                                      '<@!133245022719049728> someone is asking for trouble {0.author.mention}'.format(
-                                          message))
-
-        # Split message arguments
-        args = message.content.split(" ")
-        args = args[1:]
-        msg = ''
-        if len(args) and RepresentsInt(args[0]):  # Make sure first args is price
-            if len(message.mentions):  # See if user is mentioned
-                await client.send_message(message.channel, message.mentions[0].mention)
-
-            answer = builds.builds[builds.getClosest(int(args[0]))].getSpecs()  # Get the best match
-            msg += str(answer)  # Send the build
-            await client.send_message(message.channel, msg)  # Wait to send messege to server
-
-        else:  # Message is not properly formated
-            await client.send_message(message.channel,
-                                      'I am sorry {0.author.mention}, I am afraid I can\'t let you do that'.format(
-                                          message))
+###############################################
+###############################################
+###############################################
 
 
-    elif message.content.startswith('!oscar'):  # Rest is a good thing from time to time
-        await asyncio.sleep(10)
-        await client.send_message(message.channel,
-"""Thank <@!133245022719049728> for giving me life (coding) :purple_heart: :purple_heart: :purple_heart: !,
-Thank <@!372150009694650370>  my mother for doing nothing, nothing at all ,0 :cat: ,
-Thank <@!419166458489339935> for giving me food :apple: (making the builds)
-"""
-                                  )
-
-
-    # yeah it's not copy paste, not at all
-    elif message.content.startswith('!monitor') or message.content.startswith('!mon '):
-        if message.content == ('!monitor all'):  # That's for debuging only
-            for b in monitors_list.monitors_list:
-                await client.send_message(message.channel, str(b))
-
-        # Split message arguments
-        args = message.content.split(" ")
-        args = args[1:]
-        msg = ''
-        if len(args) and RepresentsInt(args[0]):  # Make sure first args is price
-            if len(message.mentions):  # See if user is mentioned
-                await client.send_message(message.channel, message.mentions[0].mention)
-
-            answer = monitors_list.monitors_list[monitors_list.getClosest(int(args[0]))]  # Get the best match
-            msg += str(answer)  # Send the build
-            await client.send_message(message.channel, msg)  # Wait to send messege to server
-        else:
-            await client.send_message(message.channel,
-                                      'I am sorry {0.author.mention}, I am afraid I can\'t let you do that'.format(
-                                          message))
-    elif message.content.startswith('!update'):
-        builds.update()
-        await client.send_message(message.channel,
-                                  'Yummy, Yummy, Yummy I got some new stuff :P'
-                                 )
+# Let the Magik begin
 
 if __name__ == "__main__":
     # bot = false case it's FUCKING user, not bot!
-    client.run(
+    bot.run(
         token,
         bot=False
     )
 
-################################
-####### That's all folks #######
-################################
+"""
+Home
+A place where I can go
+To take this off my shoulders
+Someone take me home
+Someone take me
+"""
+
+###############################################
+############## That's all folks  ##############
+###############################################

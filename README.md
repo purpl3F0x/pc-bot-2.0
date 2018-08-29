@@ -1,5 +1,5 @@
 # pc-bot-2.0
 
-|It's Django time,
+It's Django time !!!!
 
-~no more taliking, PYTHON SUCKS
+`~ no more taliking, PYTHON SUCKS`

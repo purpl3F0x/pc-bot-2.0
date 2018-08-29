@@ -1,3 +1,4 @@
+# Stavros Avramidis
 # builds.py
 
 import os
@@ -11,8 +12,6 @@ django.setup()
 import lists
 
 
-
-
 def update():
     print('Updating builds query')
     global builds
@@ -21,19 +20,18 @@ def update():
 
 
 def getClosest(d, args=[]):  # Find Build with the closest price
-	if args:
-		tags = lists.models.Tag.objects.all().filter(val__in=args)
-		if tags:
-			builds = lists.models.Pc.objects.all().filter(active=True,tags__in=tags)
-		else:
-		 	builds = lists.models.Pc.objects.all().filter(active=True)
-	else:
-		builds = lists.models.Pc.objects.all().filter(active=True)
+    if args:
+        tags = lists.models.Tag.objects.all().filter(val__in=args)
+        if tags:
+            builds = lists.models.Pc.objects.all().filter(active=True, tags__in=tags)
+        else:
+            builds = lists.models.Pc.objects.all().filter(active=True)
+    else:
+        builds = lists.models.Pc.objects.all().filter(active=True)
 
-	prices = [b.price for b in builds]
-	m = min(prices, key=lambda x: abs(x - int(d)))
-	return builds[prices.index(m)]
-
+    prices = [b.price for b in builds]
+    m = min(prices, key=lambda x: abs(x - int(d)))
+    return builds[prices.index(m)]
 
 
 if __name__ == "__main__":
@@ -42,8 +40,6 @@ if __name__ == "__main__":
     a = getClosest(4217)
     print(a)
 
-
-
-    a = getClosest(4217,["AMD"])
+    a = getClosest(4217, ["AMD"])
 
     print(a)

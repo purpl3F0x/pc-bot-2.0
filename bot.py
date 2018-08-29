@@ -1,5 +1,6 @@
+# Stavros Avramidis
 # bot.py
-# v 2.0 -beta
+# v2.0 -beta
 
 import discord
 from discord.ext.commands import Bot
@@ -30,6 +31,7 @@ whitelist = [
 # initialise bot
 bot = Bot(command_prefix='$')
 
+# get bot token from env vars
 token = os.environ['TOKEN']
 
 
@@ -73,7 +75,7 @@ async def pc_info(context):
         Thank <@!332970862150156289> for cleaning my :poop:
         Thank <@!372150009694650370>  my mother for doing nothing, nothing at all ,0 :cat: ,
 
-        https://github.com/purpl3F0x/pc-bot-2
+        https://github.com/purpl3F0x/pc-bot-2.0
         `Pc Bot v2.0-beta`
         """
     )

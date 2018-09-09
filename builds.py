@@ -2,14 +2,14 @@
 # builds.py
 
 import os
-
-os.environ.setdefault("DJANGO_SETTINGS_MODULE", "pc_bot.settings")
-
 import django
 
+import lists
+
+
+os.environ.setdefault("DJANGO_SETTINGS_MODULE", "pc_bot.settings")
 django.setup()
 
-import lists
 
 
 def update():
@@ -19,11 +19,15 @@ def update():
     return len(builds)
 
 
+def getAll(min=0, max=100000000):
+    return lists.models.Pc.objects.all().filter(price__gte=min, price__lte=max)
+
+
 def getClosest(d, args=[]):  # Find Build with the closest price
     if args:
         tags = lists.models.Tag.objects.all().filter(val__in=args)
         if tags:
-            builds = lists.models.Pc.objects.all().filter(active=True, tags__in=tags)
+            builds = lists.models.Pc.objects.all().filter(tags__in=tags)
         else:
             builds = lists.models.Pc.objects.all().filter(active=True)
     else:
@@ -41,5 +45,8 @@ if __name__ == "__main__":
     print(a)
 
     a = getClosest(4217, ["AMD"])
+
+    all = getAll()
+    print (all)
 
     print(a)

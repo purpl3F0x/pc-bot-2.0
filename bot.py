@@ -41,7 +41,6 @@ token = os.environ['TOKEN']
 
 @bot.command(pass_context=True)
 async def pc(context, price: int, *args):
-    ''''''
     # Check if message in whitelisted channel
     if context.message.channel.id not in whitelist:
         return
@@ -64,6 +63,29 @@ async def pc(context, price: int, *args):
 ###############################################
 
 @bot.command(pass_context=True)
+async def pc_all(context, min: int=0, max: int=1000000000 , *):
+
+    # Check if message in whitelisted channel
+    if context.message.channel.id not in whitelist:
+        return
+
+    answer = builds. \
+        getAll(min, max)
+
+    if answer:
+        for b in answer:
+            await bot.say(
+                b.getSpecs()
+            )
+    else:
+        await bot.say(":thinking: :hugging: :fox: ")
+
+    return
+
+
+###############################################
+
+@bot.command(pass_context=True)
 async def pc_info(context):
     # Check if message in whitelisted channel
     if context.message.channel.id not in whitelist:
@@ -76,7 +98,7 @@ async def pc_info(context):
         Thank <@!372150009694650370>  my mother for doing nothing, nothing at all ,0 :cat: ,
 
         https://github.com/purpl3F0x/pc-bot-2.0
-        `Pc Bot v2.0-beta`
+        `Pc Bot v2.0-βeta`
         """
     )
 
@@ -105,6 +127,12 @@ if __name__ == "__main__":
     bot.run(
         token,
         bot=False
+    )
+
+    await client.change_presence(
+        game=discord.Game(
+            name='my game'
+        )
     )
 
 """

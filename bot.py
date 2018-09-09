@@ -92,8 +92,8 @@ async def build(context, arg, *args):
         await  bot.say(answer.getSpecs())
         if answer.monitor:
             await bot.say(answer.monitor)
-        if answer.comment:
-            await bot.say(answer.comment)
+        if answer.message:
+            await bot.say(answer.message)
 
 
     return
@@ -157,7 +157,7 @@ async def on_ready():
     # Set rich presence
     await bot.change_presence(
         game=discord.Game(
-            name='my game'
+            name='Doping Semiconductors for TSMC'
         )
     )
 

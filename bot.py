@@ -7,6 +7,7 @@ from discord.ext.commands import Bot
 from discord.ext import commands
 import asyncio
 import os
+import re
 
 # local imports
 import builds
@@ -33,6 +34,15 @@ bot = Bot(command_prefix='$')
 
 # get bot token from env vars
 token = os.environ['TOKEN']
+
+
+############ Some helper funcitons ############
+def is_mention(s):
+    if re.match("<@+\d{18}>",s):
+        return s[2:20]
+
+    return False
+
 
 
 ###############################################
@@ -63,7 +73,37 @@ async def pc(context, price: int, *args):
 ###############################################
 
 @bot.command(pass_context=True)
-async def pc_all(context, min: int=0, max: int=1000000000 , *):
+async def build(context, arg, *args):
+
+    if is_mention(arg):
+        print(is_mention(arg))
+        answer = builds.getUserBuild(
+            user_id = is_mention(arg)
+        )
+
+    else:
+        answer = builds.getUserBuild(
+            name = arg
+        )
+
+    print (answer)
+
+    if answer:
+        await  bot.say(answer.getSpecs())
+        if answer.monitor:
+            await bot.say(answer.monitor)
+        if answer.comment:
+            await bot.say(answer.comment)
+
+
+    return
+
+
+###############################################
+
+
+@bot.command(pass_context=True)
+async def pc_all(context, min: int=0, max: int=1000000000, *args ):
 
     # Check if message in whitelisted channel
     if context.message.channel.id not in whitelist:
@@ -114,6 +154,13 @@ async def on_ready():
     print(bot.user.id)
     print('-' * 42)
 
+    # Set rich presence
+    await bot.change_presence(
+        game=discord.Game(
+            name='my game'
+        )
+    )
+
 
 ###############################################
 ###############################################
@@ -129,11 +176,6 @@ if __name__ == "__main__":
         bot=False
     )
 
-    await client.change_presence(
-        game=discord.Game(
-            name='my game'
-        )
-    )
 
 """
 Home

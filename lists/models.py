@@ -1,5 +1,6 @@
 from django.db import models
 from django.utils import timezone
+from django.core.validators import RegexValidator
 
 
 class Tag(models.Model):
@@ -87,3 +88,25 @@ class Monitor(models.Model):
 
     def __str__(self):
         return self.name + ' ' + str(self.price) + '€ ' + self.resolution + ' ' + str(self.refresh_rate) + 'Hz(1/s)'
+
+
+class UserBuild(models.Model):
+    numeric = RegexValidator(r'\d{18}', 'Only numeric characters are allowed.')
+
+    name = models.CharField(max_length=64,blank=True)
+    owner = models.CharField(blank=True, max_length=18,  validators=[numeric])
+
+    pc = models.OneToOneField(Pc, on_delete=models.CASCADE)
+    monitor = models.OneToOneField(Monitor, blank=True, null=True, on_delete=models.CASCADE)
+
+    message = models.TextField(blank=True)
+
+    def publish(self):
+        self.save()
+
+
+    def __str__(self):
+        return self.name + ' ' + self.owner
+
+    def getSpecs(self):
+        return self.pc.getSpecs()

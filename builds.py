@@ -38,6 +38,24 @@ def getClosest(d, args=[]):  # Find Build with the closest price
     return builds[prices.index(m)]
 
 
+def getUserBuild(name="",user_id=""):
+    if name:
+        try:
+            return lists.models.UserBuild.objects.get(name=name)
+        except:
+            return None
+
+    elif user_id:
+        try:
+            return lists.models.UserBuild.objects.get(owner=user_id)
+        except:
+            return None
+
+    return None
+
+
+
+
 if __name__ == "__main__":
     print(42 * '_')
 
@@ -49,4 +67,15 @@ if __name__ == "__main__":
     all = getAll()
     print (all)
 
+    print(a)
+
+
+    #### user Builds
+
+    a = getUserBuild(name="test")
+    print(a)
+    a = getUserBuild(name="Test")
+    print(a)
+
+    a = getUserBuild(user_id="133245022719049728")
     print(a)

@@ -1,6 +1,5 @@
-from django.db import models
-from django.utils import timezone
 from django.core.validators import RegexValidator
+from django.db import models
 
 
 class Tag(models.Model):
@@ -91,10 +90,10 @@ class Monitor(models.Model):
 
 
 class UserBuild(models.Model):
-    numeric = RegexValidator(r'\d{18}', 'Only numeric characters are allowed.')
+    discord_id_validator = RegexValidator(r'\d{18}', 'Only numeric characters are allowed.')
 
     name = models.CharField(max_length=64,blank=True)
-    owner = models.CharField(blank=True, max_length=18,  validators=[numeric])
+    owner = models.CharField(blank=True, max_length=18, validators=[discord_id_validator])
 
     pc = models.OneToOneField(Pc, on_delete=models.CASCADE)
     monitor = models.OneToOneField(Monitor, blank=True, null=True, on_delete=models.CASCADE)

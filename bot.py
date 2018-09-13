@@ -2,15 +2,21 @@
 # bot.py
 # v2.0 -beta
 
-import discord
-from discord.ext.commands import Bot
-from discord.ext import commands
-import asyncio
 import os
 import re
 
+import discord
+from discord.ext.commands import Bot
+
 # local imports
 import builds
+import disc_admin
+
+env = {}
+env["globals"] = None
+env["__name__"] = None
+env["__file__"] = None
+
 
 ##########################################################
 ##########################################################
@@ -38,11 +44,10 @@ token = os.environ['TOKEN']
 
 ############ Some helper funcitons ############
 def is_mention(s):
-    if re.match("<@+\d{18}>",s):
+    if re.match("<@+\d{18}>", s):
         return s[2:20]
 
     return False
-
 
 
 ###############################################
@@ -54,6 +59,13 @@ async def pc(context, price: int, *args):
     # Check if message in whitelisted channel
     if context.message.channel.id not in whitelist:
         return
+
+    if context.message.author.id not in disc_admin.getBlackList():
+        await bot.say(
+            "I'm sorry <@" + context.message.author.id + "> ,guess who is on black list"
+        )
+        return
+
     print(context.message.channel.id, 'Requested: ')
     print('args: ', args)
     print('price :', price)
@@ -74,19 +86,29 @@ async def pc(context, price: int, *args):
 
 @bot.command(pass_context=True)
 async def build(context, arg, *args):
+    # Check if message in whitelisted channel
+    if context.message.channel.id not in whitelist:
+        return
+
+    if context.message.author.id not in disc_admin.getBlackList():
+        await bot.say(
+            "I'm sorry <@" + context.message.author.id + "> ,guess who is on black list"
+        )
+        return
+
 
     if is_mention(arg):
         print(is_mention(arg))
         answer = builds.getUserBuild(
-            user_id = is_mention(arg)
+            user_id=is_mention(arg)
         )
 
     else:
         answer = builds.getUserBuild(
-            name = arg
+            name=arg
         )
 
-    print (answer)
+    print(answer)
 
     if answer:
         await  bot.say(answer.getSpecs())
@@ -95,7 +117,6 @@ async def build(context, arg, *args):
         if answer.message:
             await bot.say(answer.message)
 
-
     return
 
 
@@ -103,10 +124,15 @@ async def build(context, arg, *args):
 
 
 @bot.command(pass_context=True)
-async def pc_all(context, min: int=0, max: int=1000000000, *args ):
-
+async def pc_all(context, min: int = 0, max: int = 1000000000, *args):
     # Check if message in whitelisted channel
     if context.message.channel.id not in whitelist:
+        return
+
+    if context.message.author.id not in disc_admin.getAdminsId():
+        await bot.say(
+            "I'm sorry <@" + context.message.author.id + "> ,I'm afraid I can't let you do that!\nI obey only my Dad:purple_heart::fox: and his minions"
+        )
         return
 
     answer = builds. \
@@ -131,6 +157,14 @@ async def pc_info(context):
     if context.message.channel.id not in whitelist:
         return
 
+    if context.message.author.id not in disc_admin.getBlackList():
+        await bot.say(
+            "I'm sorry <@" + context.message.author.id + "> ,guess who is on black list"
+        )
+        return
+
+
+
     await bot.say(
         """Thank <@!133245022719049728> for giving me life (coding) :purple_heart: :purple_heart: :purple_heart: !,
         Thank <@!419166458489339935> for giving me food :apple: (making the builds)
@@ -144,6 +178,29 @@ async def pc_info(context):
 
     return
 
+
+###############################################
+
+@bot.command(pass_context=True)
+async def blacklist(context, member: discord.Member, reason=""):
+    # Check if message in whitelisted channel
+    if context.message.channel.id not in whitelist:
+        return
+
+    if context.message.author.id not in disc_admin.getAdminsId():
+        await bot.say(
+            "I'm sorry <@" + context.message.author.id + "> ,I'm afraid I can't let you do that!\nI obey only my Dad:purple_heart::fox: and his minions"
+        )
+        return
+
+    disc_admin.blackListuser(member.id, reason)
+
+    await bot.add_reaction(context.message, '\U0001F44D')
+    await bot.add_reaction(context.message, '🆗🆗\U0001F197')
+    await bot.add_reaction(context.message, '🆗🆗\U0001F1F4')
+    await bot.add_reaction(context.message, '🆗🆗\U0001F1F0')
+
+    return
 
 ###############################################
 
@@ -175,7 +232,6 @@ if __name__ == "__main__":
         token,
         bot=False
     )
-
 
 """
 Home

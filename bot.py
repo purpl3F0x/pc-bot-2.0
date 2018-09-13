@@ -196,9 +196,6 @@ async def blacklist(context, member: discord.Member, reason=""):
     disc_admin.blackListuser(member.id, reason)
 
     await bot.add_reaction(context.message, '\U0001F44D')
-    await bot.add_reaction(context.message, '🆗🆗\U0001F197')
-    await bot.add_reaction(context.message, '🆗🆗\U0001F1F4')
-    await bot.add_reaction(context.message, '🆗🆗\U0001F1F0')
 
     return
 

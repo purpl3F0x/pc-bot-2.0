@@ -60,7 +60,7 @@ async def pc(context, price: int, *args):
     if context.message.channel.id not in whitelist:
         return
 
-    if context.message.author.id not in disc_admin.getBlackList():
+    if context.message.author.id in disc_admin.getBlackList():
         await bot.say(
             "I'm sorry <@" + context.message.author.id + "> ,guess who is on black list"
         )
@@ -90,7 +90,7 @@ async def build(context, arg, *args):
     if context.message.channel.id not in whitelist:
         return
 
-    if context.message.author.id not in disc_admin.getBlackList():
+    if context.message.author.id in disc_admin.getBlackList():
         await bot.say(
             "I'm sorry <@" + context.message.author.id + "> ,guess who is on black list"
         )
@@ -131,7 +131,7 @@ async def pc_all(context, min: int = 0, max: int = 1000000000, *args):
 
     if context.message.author.id not in disc_admin.getAdminsId():
         await bot.say(
-            "I'm sorry <@" + context.message.author.id + "> ,I'm afraid I can't let you do that!\nI obey only my Dad:purple_heart::fox: and his minions"
+            "I'm sorry <@" + context.message.author.id + "> ,I'm afraid I can't let you do that!\nI obey only my Daddy:purple_heart::fox: and his minions"
         )
         return
 
@@ -157,7 +157,7 @@ async def pc_info(context):
     if context.message.channel.id not in whitelist:
         return
 
-    if context.message.author.id not in disc_admin.getBlackList():
+    if context.message.author.id in disc_admin.getBlackList():
         await bot.say(
             "I'm sorry <@" + context.message.author.id + "> ,guess who is on black list"
         )
@@ -189,7 +189,7 @@ async def blacklist(context, member: discord.Member, reason=""):
 
     if context.message.author.id not in disc_admin.getAdminsId():
         await bot.say(
-            "I'm sorry <@" + context.message.author.id + "> ,I'm afraid I can't let you do that!\nI obey only my Dad:purple_heart::fox: and his minions"
+            "I'm sorry <@" + context.message.author.id + "> ,I'm afraid I can't let you do that!\nI obey only my Daddy:purple_heart::fox: and his minions"
         )
         return
 

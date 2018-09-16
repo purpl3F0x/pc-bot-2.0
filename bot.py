@@ -11,6 +11,7 @@ from discord.ext.commands import Bot
 # local imports
 import builds
 import disc_admin
+import hal9000
 
 env = {}
 env["globals"] = None
@@ -198,6 +199,21 @@ async def blacklist(context, member: discord.Member, reason=""):
     await bot.add_reaction(context.message, '\U0001F44D')
 
     return
+
+###############################################
+
+
+@bot.event
+async def on_message(message):
+    if message.channel.is_private and message.author.id != bot.user.id and message.channel.id != "468208302875213825":
+        quote = hal9000.hal9000().replace(
+            "%user",
+            ("<@" + message.author.id + ">")
+        )
+        await bot.send_message(message.channel, quote)
+
+    return
+
 
 ###############################################
 

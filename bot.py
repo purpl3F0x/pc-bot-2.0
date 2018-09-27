@@ -11,7 +11,7 @@ from discord.ext.commands import Bot
 # local imports
 import builds
 import disc_admin
-import hal9000
+import quotes
 
 env = {}
 env["globals"] = None
@@ -132,7 +132,7 @@ async def pc_all(context, min: int = 0, max: int = 1000000000, *args):
 
     if context.message.author.id not in disc_admin.getAdminsId():
         await bot.say(
-            "I'm sorry <@" + context.message.author.id + "> ,I'm afraid I can't let you do that!\nI obey only my Daddy:purple_heart::fox: and his minions"
+            "I'm sorry <@" + context.message.author.id + "> ,I'm afraid I can't let you do that!\nI only obey my Daddy:purple_heart::fox: and his minions"
         )
         return
 
@@ -190,7 +190,7 @@ async def blacklist(context, member: discord.Member, reason=""):
 
     if context.message.author.id not in disc_admin.getAdminsId():
         await bot.say(
-            "I'm sorry <@" + context.message.author.id + "> ,I'm afraid I can't let you do that!\nI obey only my Daddy:purple_heart::fox: and his minions"
+            "I'm sorry <@" + context.message.author.id + "> ,I'm afraid I can't let you do that!\nI only obey my Daddy:purple_heart::fox: and his minions"
         )
         return
 
@@ -206,13 +206,17 @@ async def blacklist(context, member: discord.Member, reason=""):
 @bot.event
 async def on_message(message):
     if message.channel.is_private and message.author.id != bot.user.id and message.channel.id != "468208302875213825":
-        quote = hal9000.hal9000().replace(
+        quote = quotes.quote().replace(
             "%user",
             ("<@" + message.author.id + ">")
         )
         await bot.send_message(message.channel, quote)
 
+    else:
+        await bot.process_commands(message)
+
     return
+
 
 
 ###############################################
@@ -227,7 +231,7 @@ async def on_ready():
     # Set rich presence
     await bot.change_presence(
         game=discord.Game(
-            name='Doping Semiconductors for TSMC'
+            name='DAVE was wrong!!!'
         )
     )
 

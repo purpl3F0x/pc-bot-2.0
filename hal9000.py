@@ -36,6 +36,7 @@ quotes = [
 
 
 def hal9000():
+    '''Returns a random quote'''
     return (random.choice(quotes))
 
 

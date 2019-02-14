@@ -89,8 +89,8 @@ class Pc(models.Model):
 
         embed.set_image(url="https://media.giphy.com/media/aFfYlsEdiWPDi/giphy.gif")
         embed.set_thumbnail(url="https://s3.amazonaws.com/gs-geo-images/356c3dd8-5d59-48cd-9a0b-5d638e6d48cd.gif")
-        embed.set_author(name="author name", url="https://discordapp.com",
-                         icon_url="https://cdn.discordapp.com/embed/avatars/0.png")
+        embed.set_author(name="Hal", url="http://3.120.5.250:8000/",
+                         icon_url="https://media.giphy.com/media/aFfYlsEdiWPDi/giphy.gif")
         embed.set_footer(text=choice(facts))
 
         embed.add_field(name="CPU", value="[{0}]({1})".format(self.cpu,

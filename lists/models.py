@@ -1,8 +1,8 @@
+from random import choice
+
+from discord import Colour, Embed
 from django.core.validators import RegexValidator
 from django.db import models
-
-from discord import Embed, Colour
-from random import choice
 
 
 class Tag(models.Model):
@@ -119,7 +119,7 @@ class Pc(models.Model):
                                                                   "https://www.skroutz.gr/search?keyphrase=" + str(
                                                                       self.hdd).replace(' ', '%20')))
         if self.case:
-            embed.add_field(name="SSD", value="[{0}]({1})".format(self.case,
+            embed.add_field(name="Case", value="[{0}]({1})".format(self.case,
                                                                   "https://www.skroutz.gr/search?keyphrase=" + str(
                                                                       self.case).replace(' ', '%20')))
         if self.cooler:

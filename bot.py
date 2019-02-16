@@ -13,11 +13,6 @@ import builds
 import disc_admin
 import quotes
 
-env = {}
-env["globals"] = None
-env["__name__"] = None
-env["__file__"] = None
-
 ##########################################################
 ##########################################################
 # Dept. of Redundancy Department
@@ -61,9 +56,9 @@ async def pc(context, price: int, *args):
         return
 
     if context.message.author.id in disc_admin.getBlackList():
-        await bot.say(
-            "I'm sorry <@" + context.message.author.id + "> ,guess who is on black list"
-        )
+        await bot.add_reaction(context.message, '\U0001F622')
+        await bot.add_reaction(context.message, '\U0001F5A4')
+        await bot.add_reaction(context.message, '\U0001F4DD')
         return
 
     print(context.message.channel.id, 'Requested: ')
@@ -91,9 +86,9 @@ async def build(context, arg, *args):
         return
 
     if context.message.author.id in disc_admin.getBlackList():
-        await bot.say(
-            "I'm sorry <@" + context.message.author.id + "> ,guess who is on black list"
-        )
+        await bot.add_reaction(context.message, '\U0001F622')
+        await bot.add_reaction(context.message, '\U0001F5A4')
+        await bot.add_reaction(context.message, '\U0001F4DD')
         return
 
     if is_mention(arg):
@@ -168,7 +163,7 @@ async def pc_info(context):
         Thank <@!332970862150156289> for cleaning my :poop:
 
         https://github.com/purpl3F0x/pc-bot-2.0
-        `Pc Bot v3.1 #I wanna be forever young!`
+        **Pc Bot v3.1 #I wanna be forever young!**
         Hey!! now I'm a :metal: :star2: ...also the roof is on fire,
         
         **You and me baby ain't nothin' but mammals...

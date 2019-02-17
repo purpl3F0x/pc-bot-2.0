@@ -12,6 +12,7 @@ from discord.ext.commands import Bot
 import builds
 import disc_admin
 import quotes
+from helper import helperFuzzy
 
 ##########################################################
 ##########################################################
@@ -153,9 +154,9 @@ async def pc_info(context):
         return
 
     if context.message.author.id in disc_admin.getBlackList():
-        await bot.say(
-            "I'm sorry <@" + context.message.author.id + "> ,guess who is on black list"
-        )
+        await bot.add_reaction(context.message, '\U0001F622')
+        await bot.add_reaction(context.message, '\U0001F5A4')
+        await bot.add_reaction(context.message, '\U0001F4DD')
         return
 
     res = """Thank <@!133245022719049728> for giving me life :purple_heart: :purple_heart: :purple_heart:
@@ -200,8 +201,11 @@ async def blacklist(context, member: discord.Member, reason=""):
 ###############################################
 
 
-@bot.command(pass_context=False)
-async def hal(*args):
+@bot.command(pass_context=True)
+async def hal(context, *args):
+    if context.message.channel.id not in whitelist:
+        return
+
     for i in range(len(args)):
         if is_mention(args[i]):
             del args[i]
@@ -212,6 +216,17 @@ async def hal(*args):
     # embed.set_thumbnail(url="http://www.patriotsanon.com/images/hal9000.gif")
     embed.set_footer(text="'Cause I'm just a teenage dirtbag, baby...")
     await bot.say(embed=embed)
+
+
+###############################################
+
+
+@bot.command(pass_context=True)
+async def helpme(context, *, arg):
+    helper = helperFuzzy(arg)
+    if helper != None:
+        await bot.say(helper['help'])
+    return
 
 
 ###############################################

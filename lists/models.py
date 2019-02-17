@@ -172,3 +172,14 @@ class UserBuild(models.Model):
 
     def getSpecs(self):
         return self.pc.getSpecs()
+
+
+class Helper(models.Model):
+    name = models.CharField(max_length=128, unique=True)
+    content = models.TextField()
+
+    def publish(self):
+        self.save()
+
+    def __str__(self):
+        return self.name

@@ -1,0 +1,4 @@
+discord
+django
+fuzzywuzzy
+python-Levenshtein

@@ -11,8 +11,8 @@ from discord.ext.commands import Bot
 # local imports
 import builds
 import disc_admin
+import helper
 import quotes
-from helper import helperFuzzy
 
 ##########################################################
 ##########################################################
@@ -223,9 +223,9 @@ async def hal(context, *args):
 
 @bot.command(pass_context=True)
 async def helpme(context, *, arg):
-    helper = helperFuzzy(arg)
-    if helper != None:
-        await bot.say(helper['help'])
+    h = helper.helperFuzzy(arg)
+    if h is not None:
+        await bot.say(embed=h.get_embed())
     return
 
 

@@ -148,7 +148,7 @@ async def pc_all(context, min: int = 0, max: int = 1000000000, *args):
 
 
 @bot.command(pass_context=True)
-async def pc_info(context):
+async def info(context):
     # Check if message in whitelisted channel
     if context.message.channel.id not in whitelist:
         return

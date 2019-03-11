@@ -110,7 +110,6 @@ class Pc(models.Model):
                                                                   "https://www.skroutz.gr/search?keyphrase=" + str(
                                                                       self.cooler).replace(' ', '%20')))
 
-        embed.add_field(name=":fox:", value="```\n" + self.getSpecs() + "\n```", inline=False)
 
         # if self.comment :
         #     out += '\n' + self.comment + '\n'

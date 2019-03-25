@@ -257,7 +257,7 @@ async def skroutz(context, *args):
         ans.description += '\n\n'
         ans.description += "[{0}]({1})\n\n:star:\n\_ \_ \_ \_ \_ \_ \_ \_ \_ \_ \_ \_ \_ \_".format(msg, url)
         for r in res:
-            ans.add_field(name=r.name, value="[{0}]({1})".format(str(r.price) + ':euro:', r.url), inline=False)
+            ans.add_field(name=r['name'], value="[{0}]({1})".format(str(r['price']) + ':euro:', r['url']), inline=False)
 
         ans.add_field(name="|query took|", value='{}'.format(time.time() - start), inline=False)
 

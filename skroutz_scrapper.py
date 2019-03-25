@@ -9,15 +9,6 @@ valid_cat = {'46', '55', '49', '56', '28', '32', '31', '30', }
 search_url = "https://www.skroutz.gr/search?keyphrase="
 
 
-class Product:
-    """"""
-
-    def __init__(self, name: str, price: float, url: str):
-        self.name = name
-        self.price = price
-        self.url = url
-
-
 def price_to_float(s: str) -> float:
     """
     Converts a string with format 'n.nnn,nn €' to float
@@ -30,22 +21,46 @@ def price_to_float(s: str) -> float:
     return float(ret_val)
 
 
-def get_product_page(url: str, max_num_of_res: int = 5) -> (list, str):
+def deep_dive(url: str, args='') -> str:
+    """
+
+    :param url:  url
+    :return: returns actual url
+    """
+    url = BeautifulSoup(requests.get(url).text, 'html.parser').find(attrs={"rel": "canonical"}, href=True)['href']
+
+    if url.find('skroutz.gr/c/') >= 0:
+        return url + args
+    elif url.find('skroutz.gr/s/') >= 0:
+        return url
+    elif url.find('skroutz.gr/search?keyphrase') >= 0:
+        cards = BeautifulSoup(requests.get(url).text, 'html.parser').find_all(attrs={'class': "card technology"})
+        for c in cards:
+            a = c.find('a', href=True)
+            f = a['href'].find('/c/')
+            if f >= 0 and a['href'][f + 3:f + 5] in valid_cat:
+                return 'https://skroutz.gr' + a['href'] + args
+
+        return ""
+    else:
+        return str('')
+
+
+def get_product_page(url: str, max_num_of_res: int = 5, args: str = '') -> (list, str):
     """
     Finds product prices from  product url, search query, or search result
     :param url: the actual url (product, search, or search result)
     :param max_num_of_res: =5max number of results (when available)
     :return: list of lists with price and link, error message
     """
-    try:
-        page = requests.get(url)
-    except:
-        return [], "Error on getting URL"
 
-    # rel="canonical"
     try:
-        actualURL = BeautifulSoup(page.text, 'html.parser').find(
-            attrs={"rel": "canonical"}, href=True)['href']
+        actualURL = deep_dive(url, args)
+        print(actualURL)
+        try:
+            soup = BeautifulSoup(requests.get(actualURL).text, 'html.parser')
+        except:
+            return [], "error getting deep-dive "
     except TypeError:
         return [], "Couldn't extract actual URL"
     except:
@@ -60,8 +75,6 @@ def get_product_page(url: str, max_num_of_res: int = 5) -> (list, str):
     else:
         max_num_of_res = 1
 
-    # Create a BeautifulSoup object
-    soup = BeautifulSoup(page.text, 'html.parser')
     reslts = soup.find(
         attrs={"id": lambda x: x == "prices" or x == "sku-list"})
     if not reslts:
@@ -77,15 +90,16 @@ def get_product_page(url: str, max_num_of_res: int = 5) -> (list, str):
         ret_val = []
         for o in offers[:min(max_num_of_res, len(offers))]:
             ret_val.append(
-                Product(
-                    title if max_num_of_res == 1 else o['title'],
-                    price_to_float(o.getText()),
-                    "https://www.skroutz.gr" + o['href'] if max_num_of_res > 1 else actualURL
-                )
+                {
+                    'name' : title if max_num_of_res == 1 else o['title'],
+                    'price': price_to_float(o.getText()),
+                    'url'  : "https://www.skroutz.gr" + o['href'] if max_num_of_res > 1 else actualURL
+                }
             )
         return ret_val, title
     except:
         return [], "Unkown error"
+
 
 
 if __name__ == "__main__":
@@ -97,13 +111,14 @@ if __name__ == "__main__":
         'https://www.skroutz.gr/c/56/mnhmes-pc-ram/f/499830_583121/DDR4-16GB.html?o=ddr4',
         'https://www.skroutz.gr/search?keyphrase=2060',
         'https://www.skroutz.gr/search?keyphrase=τοστίερα',
+        'https://www.skroutz.gr/search?keyphrase=7900X',
     ]
 
     for t in tests:
         res, msg = get_product_page(t)
         if res:
             for r in res:
-                print(r.price, msg)
+                print(r['price'], msg)
         else:
             print(msg)
 

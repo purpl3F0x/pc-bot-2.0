@@ -24,11 +24,12 @@ facts = [
 ]
 
 
-def generate_embed(title: str = "", description: str = choice(captions)):
+def generate_embed(title: str = "", description: str = choice(captions), add_images: bool = True):
     embed = Embed(title=title, colour=Colour(0x8567ff), url="http://3.120.5.250:8000/",
                   description=description)
-    embed.set_image(url="https://media.giphy.com/media/aFfYlsEdiWPDi/giphy.gif")
-    embed.set_thumbnail(url="https://s3.amazonaws.com/gs-geo-images/356c3dd8-5d59-48cd-9a0b-5d638e6d48cd.gif")
+    if add_images:
+        embed.set_image(url="https://media.giphy.com/media/aFfYlsEdiWPDi/giphy.gif")
+        embed.set_thumbnail(url="https://s3.amazonaws.com/gs-geo-images/356c3dd8-5d59-48cd-9a0b-5d638e6d48cd.gif")
     embed.set_author(name="Hal", url="http://3.120.5.250:8000/",
                      icon_url="https://media.giphy.com/media/aFfYlsEdiWPDi/giphy.gif")
     embed.set_footer(text=choice(facts))

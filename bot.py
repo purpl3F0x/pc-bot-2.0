@@ -4,6 +4,7 @@
 
 import os
 import re
+import time
 
 import discord
 from discord.ext.commands import Bot
@@ -13,6 +14,8 @@ import builds
 import disc_admin
 import helper
 import quotes
+import skroutz_scrapper as skrtz
+from lists.common import generate_embed
 
 ##########################################################
 ##########################################################
@@ -231,6 +234,39 @@ async def helpme(context, *, arg):
 
 ###############################################
 
+skroutz_cmd_arg = {'--desc', '--asc'}
+
+
+@bot.command(pass_context=True)
+async def skroutz(context, *args):
+    start = time.time()
+    cmd_args, q_args = [], []
+    for x in args:
+        (q_args, cmd_args)[x.startswith('--')].append(x)
+
+    if not q_args:
+        await bot.add_reaction(context.message, '\U0001F622')
+        return
+    query = "+".join(q_args)
+    url = skrtz.search_url + query
+    res, msg = skrtz.get_product_page(url)
+    if not res:
+        await bot.add_reaction(context.message, '\U0001F623')
+    else:
+        ans = generate_embed("Query Results Thank ~~GOD~~ HAL", add_images=False)
+        ans.description += '\n\n'
+        ans.description += "[{0}]({1})\n\n:star:\n\_ \_ \_ \_ \_ \_ \_ \_ \_ \_ \_ \_ \_ \_".format(msg, url)
+        for r in res:
+            ans.add_field(name=r.name, value="[{0}]({1})".format(str(r.price) + ':euro:', r.url), inline=False)
+
+        ans.add_field(name="|query took|", value='{}'.format(time.time() - start), inline=False)
+
+        await bot.say(embed=ans)
+    return
+
+
+###############################################
+
 
 @bot.event
 async def on_message(message):
@@ -240,7 +276,6 @@ async def on_message(message):
             ("<@" + message.author.id + ">")
         )
         await bot.send_message(message.channel, quote)
-
     else:
         await bot.process_commands(message)
 

@@ -2,3 +2,4 @@ discord
 django
 fuzzywuzzy
 python-Levenshtein
+regex

@@ -21,17 +21,19 @@ def price_to_float(s: str) -> float:
     return float(ret_val)
 
 
-def deep_dive(url: str, args='') -> str:
+def deep_dive(url: str, args: dict = {}) -> str:
     """
-
+    Returns actual url, of search - tries to navigate to tech. category if multiple results
     :param url:  url
-    :return: returns actual url
+    :param args: optional url parameters (must be formatted)
+    :return: returns the actual url
     """
     url = BeautifulSoup(requests.get(url).text, 'html.parser').find(attrs={"rel": "canonical"}, href=True)['href']
 
-    if url.find('skroutz.gr/c/') >= 0:
-        return url + args
-    elif url.find('skroutz.gr/s/') >= 0:
+    if url.find('skroutz.gr/c/') != -1:
+        return url + ('?' if '?' not in url else '&') + (
+            lambda x: '&'.join("%s=%s" % (str(k), str(v)) for (k, v) in x.items()))(args)
+    elif url.find('skroutz.gr/s/') != -1:
         return url
     elif url.find('skroutz.gr/search?keyphrase') >= 0:
         cards = BeautifulSoup(requests.get(url).text, 'html.parser').find_all(attrs={'class': "card technology"})
@@ -39,14 +41,14 @@ def deep_dive(url: str, args='') -> str:
             a = c.find('a', href=True)
             f = a['href'].find('/c/')
             if f >= 0 and a['href'][f + 3:f + 5] in valid_cat:
-                return 'https://skroutz.gr' + a['href'] + args
-
-        return ""
+                return 'https://skroutz.gr' + a['href'] + ('?' if '?' not in url else '&') + (
+                    lambda x: '&'.join("%s=%s" % (str(k), str(v)) for (k, v) in x.items()))(args)
+        return ''
     else:
-        return str('')
+        return ''
 
 
-def get_product_page(url: str, max_num_of_res: int = 5, args: str = '') -> (list, str):
+def get_product_page(url: str, max_num_of_res: int = 5, args: dict = {}) -> (list, str):
     """
     Finds product prices from  product url, search query, or search result
     :param url: the actual url (product, search, or search result)
@@ -99,7 +101,6 @@ def get_product_page(url: str, max_num_of_res: int = 5, args: str = '') -> (list
         return ret_val, title
     except:
         return [], "Unkown error"
-
 
 
 if __name__ == "__main__":

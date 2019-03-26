@@ -235,6 +235,8 @@ async def helpme(context, *, arg):
 ###############################################
 
 skroutz_cmd_arg = {'--desc', '--asc'}
+lxr = {'desc': {'order_dir': 'desc'}, 'asc': {'order_dir': 'asc'}, 'price': {'order_by': 'pricevat'},
+       'pop' : {'order_by': 'popularity'}}
 
 
 @bot.command(pass_context=True)
@@ -243,13 +245,33 @@ async def skroutz(context, *args):
     cmd_args, q_args = [], []
     for x in args:
         (q_args, cmd_args)[x.startswith('--')].append(x)
+        if x.startswith('--help'):
+            await bot.say(
+                "```php\nskroutz HALP\n\n<optional args>\n'--pop':         sort by popularity (default)\n'--price':       sort by price\n'--asc':         sort by ascending order( raises --price by default)\n'--desc':        sort by descending order( raises --price by default)\n'--max-{int}':   maximum price\n'--min-{int}':   minimun price\n'--help':        shows this dah :|\n\nex: '$skroutz 2080 --asc --min-750'\n```")
+            return
+
+    d = {}
+    for arg in cmd_args:
+        arg = arg[2:].lower()
+        if arg in lxr:
+            d.update(lxr[arg])
+        elif arg.startswith('max'):
+            try:
+                d.update({'price_max': int(arg[4:])})
+            except ValueError:
+                continue
+        elif arg.startswith('min'):
+            try:
+                d.update({'price_min': int(arg[4:])})
+            except ValueError:
+                continue
 
     if not q_args:
         await bot.add_reaction(context.message, '\U0001F622')
         return
     query = "+".join(q_args)
     url = skrtz.search_url + query
-    res, msg = skrtz.get_product_page(url)
+    res, msg = skrtz.get_product_page(url, args=d)
     if not res:
         await bot.add_reaction(context.message, '\U0001F623')
     else:
@@ -257,7 +279,8 @@ async def skroutz(context, *args):
         ans.description += '\n\n'
         ans.description += "[{0}]({1})\n\n:star:\n\_ \_ \_ \_ \_ \_ \_ \_ \_ \_ \_ \_ \_ \_".format(msg, url)
         for r in res:
-            ans.add_field(name=r['name'], value="[{0}]({1})".format(str(r['price']) + ':euro:', r['url']), inline=False)
+            ans.add_field(name=r['name'], value="[{0}]({1})".format(str(r['price']) + ' :euro:', r['url']),
+                          inline=False)
 
         ans.add_field(name="|query took|", value='{}'.format(time.time() - start), inline=False)
 

@@ -103,13 +103,12 @@ class Pc(models.Model):
                                                                       self.hdd).replace(' ', '%20')))
         if self.case:
             embed.add_field(name="Case", value="[{0}]({1})".format(self.case,
-                                                                  "https://www.skroutz.gr/search?keyphrase=" + str(
-                                                                      self.case).replace(' ', '%20')))
+                                                                   "https://www.skroutz.gr/search?keyphrase=" + str(
+                                                                       self.case).replace(' ', '%20')))
         if self.cooler:
             embed.add_field(name="Cooler", value="[{0}]({1})".format(self.cooler,
-                                                                  "https://www.skroutz.gr/search?keyphrase=" + str(
-                                                                      self.cooler).replace(' ', '%20')))
-
+                                                                     "https://www.skroutz.gr/search?keyphrase=" + str(
+                                                                         self.cooler).replace(' ', '%20')))
 
         # if self.comment :
         #     out += '\n' + self.comment + '\n'
@@ -169,3 +168,25 @@ class Helper(models.Model):
     def get_embed(self):
         e = common.generate_embed(self.name, self.content)
         return e
+
+
+class Peripheral(models.Model):
+    price = models.IntegerField(blank=False)
+    name = models.CharField(max_length=64, unique=True)
+    url = models.URLField(unique=True)
+
+    type = models.IntegerField(
+        blank=False,
+        choices=(
+            (1, 'Mouse'),
+            (2, 'Keyboard'),
+            (3, 'Headset'),
+        ),
+        default=1
+    )
+
+    def publish(self):
+        self.save()
+
+    def __str__(self):
+        return self.name

@@ -1,6 +1,6 @@
 # Stavros Avramidis
 # bot.py
-# v3.0 - The new Generation
+# v3.2 - The new Generation
 
 import os
 import re
@@ -162,16 +162,22 @@ async def info(context):
         await bot.add_reaction(context.message, '\U0001F4DD')
         return
 
-    res = """Thank <@!133245022719049728> for giving me life :purple_heart: :purple_heart: :purple_heart:
-        Thank <@!419166458489339935> for giving me food :apple:
-        Thank <@!332970862150156289> for cleaning my :poop:
+    res = """Thank ***Purpl3F0x*** for giving me life :purple_heart: :purple_heart: :purple_heart:
+        Thank ***wiz*** for giving me food :apple:
+        Thank ***Mand Break*** for cleaning my :poop:
+        
+        __Version 3.2__
 
         https://github.com/purpl3F0x/pc-bot-2.0
-        **Pc Bot v3.1 #I wanna be forever young!**
-        Hey!! now I'm a :metal: :star2: ...also the roof is on fire,
-        
-        **You and me baby ain't nothin' but mammals...
-        ...So let's do it like they do on the Discovery Channel**
+        *I want you
+        To be
+        Left behind those empty walls
+        Don't
+        You see
+        From behind those empty walls
+        Those empty walls
+        When we decline, from the confines of our mind
+        Don't waste your time, on coffins today*
         """
 
     embed = discord.Embed(description=res, color=0x836cff)
@@ -290,6 +296,34 @@ async def skroutz(context, *args):
 
 ###############################################
 
+@bot.command(pass_context=True)
+async def per(context, tp, price: int, *args):
+    tp = tp.lower()
+    res = []
+
+    if tp == 'mouse':
+        res = builds.get_peripheral(price, '1')
+    elif tp == 'keyboard':
+        res = builds.get_peripheral(price, '2')
+    elif tp == 'headset':
+        res = builds.get_peripheral(price, '3')
+
+    if not res:
+        await bot.add_reaction(context.message, '\U0001F623')
+        return
+
+    e = generate_embed(add_images=False)
+
+    for _ in res:
+        e.add_field(name=_.name, value="[{0}]({1})".format(str(_.price) + ' :euro:', _.url), inline=False)
+
+    await bot.say(embed=e)
+
+    return
+
+
+###############################################
+
 
 @bot.event
 async def on_message(message):
@@ -300,6 +334,9 @@ async def on_message(message):
         )
         await bot.send_message(message.channel, quote)
     else:
+        # Check if message in whitelisted channel
+        if message.channel.id not in whitelist:
+            return
         await bot.process_commands(message)
 
     return

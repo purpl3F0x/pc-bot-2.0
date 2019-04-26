@@ -1,9 +1,11 @@
 from django.contrib import admin
 
-from .models import Helper, Monitor, Pc, Tag, UserBuild
+from .models import Helper, Monitor, Pc, Peripheral, Tag, UserBuild
 
 
 # Register your models here.
+
+
 class PcAdmin(admin.ModelAdmin):
     list_display = (
         '__str__',
@@ -28,3 +30,4 @@ admin.site.register(Monitor)
 admin.site.register(Tag)
 admin.site.register(UserBuild)
 admin.site.register(Helper)
+admin.site.register(Peripheral)

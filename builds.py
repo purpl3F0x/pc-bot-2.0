@@ -67,13 +67,13 @@ def get_peripheral(price: int, type):
 
 def get_monitor(price: int, resolution: str = '', refresh_rate: int = 0):
     monitors = lists.models.Monitor.objects.all()
-    if resolution:
-        monitors = monitors.filter(resolution__in=resolution)
-    if refresh_rate:
+    if resolution != '':
+        monitors = list(filter(lambda x: (x.resolution.lower() == resolution.lower()), monitors))
+    if refresh_rate != 0:
         monitors = list(filter(lambda x: (x.refresh_rate >= refresh_rate), monitors))
 
-    monitors = list(filter(lambda x: abs(x.price - price) < 42, monitors))
-    return monitors
+    out = list(filter(lambda x: abs(x.price - price) < 42, monitors))
+    return out
 
 
 ######################################
@@ -84,7 +84,9 @@ def get_monitor(price: int, resolution: str = '', refresh_rate: int = 0):
 
 if __name__ == "__main__":
     print(get_monitor(42, '4K'))
-    print(get_monitor(42, '1080p', 144))
+    a = get_monitor(42, '1080p')
+    for i in a:
+        print(i.resolution)
 
     exit(0)
     print(get_peripheral(43, '1'))

@@ -14,7 +14,9 @@ captions = [
     "And she doesn't give a damn about me\n'Cause I'm just a teenage dirt bag, baby",
     "Everybody's going to the party, have a real good time\nDancing in the desert, blowing up the sunshine",
     "Fear of the dark, fear of the dark, I have constant fear that something's always near",
-    "Don't you see their bodies burning, Desolate and full of yearning, Dying of anticipation, Choking from intoxication"
+    "Don't you see their bodies burning, Desolate and full of yearning, Dying of anticipation, Choking from intoxication",
+    "Take my hand and let's end it all, She broke her little bones, on the boulders below !!",
+    "Anti-depressants, Controlling tools of your system, Making life more tolerable",
 ]
 
 facts = [

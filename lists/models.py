@@ -117,13 +117,17 @@ class Pc(models.Model):
 
 class Monitor(models.Model):
     price = models.IntegerField(blank=False)
-    name = models.CharField(max_length=64, blank=False)
-    resolution = models.CharField(max_length=16, blank=False,
-                                  choices=(
-                                      (1, '1080p'),
-                                      (2, '1440p'),
-                                      (3, '4K'),
-                                  ), default=1)
+    name = models.CharField(max_length=64, blank=False, unique=True)
+    resolution = models.CharField(
+        max_length=16,
+        blank=False,
+        choices=(
+            ('1080p', '1080p'),
+            ('1440p', '1440p'),
+            ('4K', '4K'),
+            ('Ultrawide', 'Ultrawide'),
+        ),
+    )
     panel = models.CharField(max_length=16, blank=True)
     refresh_rate = models.IntegerField(default=60)
 
@@ -131,7 +135,8 @@ class Monitor(models.Model):
         self.save()
 
     def __str__(self):
-        return self.name + ' ' + str(self.price) + '€ ' + self.resolution + ' ' + str(self.refresh_rate) + 'Hz(1/s)'
+        return self.name + ' ' + str(self.price) + '€ ' + self.get_resolution_display() + ' ' + str(
+            self.refresh_rate) + 'Hz(1/s)'
 
 
 class UserBuild(models.Model):

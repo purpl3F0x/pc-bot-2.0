@@ -325,6 +325,36 @@ async def per(context, tp, price: int, *args):
 ###############################################
 
 
+@bot.command(pass_context=True)
+async def monitor(context, price: int, resoluton: str = '', refresh_rate: int = 0):
+    res = builds.get_monitor(price, resoluton, refresh_rate)
+
+    if not res:
+        await bot.add_reaction(context.message, '\U0001F623')
+        return
+
+    e = generate_embed(
+        title='{}€ {} {} monitros'.format(
+            price,
+            resoluton,
+            (str(refresh_rate) + ' Hz' if refresh_rate else str())
+        ),
+        add_images=False
+    )
+
+    for _ in res:
+        e.add_field(name=_.name, value="[{0}]({1})".format(str(_.price) + ' :euro:',
+                                                           'https://www.skroutz.gr/search?keyphrase=' + _.name),
+                    inline=False)
+
+    await bot.say(embed=e)
+
+    return
+
+
+###############################################
+
+
 @bot.event
 async def on_message(message):
     if message.channel.is_private and message.author.id != bot.user.id and message.channel.id != "468208302875213825":

@@ -19,7 +19,6 @@ def update():
 
 
 def getAll(min=0, max=100000000):
-
     return lists.models.Pc.objects.all().filter(price__gte=min, price__lte=max)
 
 
@@ -66,6 +65,17 @@ def get_peripheral(price: int, type):
     return out
 
 
+def get_monitor(price: int, resolution: str = '', refresh_rate: int = 0):
+    monitors = lists.models.Monitor.objects.all()
+    if resolution:
+        monitors = monitors.filter(resolution__in=resolution)
+    if refresh_rate:
+        monitors = list(filter(lambda x: (x.refresh_rate >= refresh_rate), monitors))
+
+    monitors = list(filter(lambda x: abs(x.price - price) < 42, monitors))
+    return monitors
+
+
 ######################################
 ######################################
 ######################################
@@ -73,6 +83,10 @@ def get_peripheral(price: int, type):
 
 
 if __name__ == "__main__":
+    print(get_monitor(42, '4K'))
+    print(get_monitor(42, '1080p', 144))
+
+    exit(0)
     print(get_peripheral(43, '1'))
 
     exit(0)

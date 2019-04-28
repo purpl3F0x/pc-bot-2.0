@@ -347,7 +347,7 @@ async def monitor(context, price: int, resoluton: str = '', refresh_rate: int = 
             name=_.name,
             value="[{0}]({1})".format(
                 str(_.price) + ' :euro:',
-                _.url if _.url else ('https://www.skroutz.gr/search?keyphrase=' + _.name.split(' ').join('+'))
+                _.url if _.url else ('https://www.skroutz.gr/search?keyphrase=' + _.name.replace(' ', '+'))
             ),
             inline=False
         )

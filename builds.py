@@ -72,7 +72,7 @@ def get_monitor(price: int, resolution: str = '', refresh_rate: int = 0):
     if refresh_rate != 0:
         monitors = list(filter(lambda x: (x.refresh_rate >= refresh_rate), monitors))
 
-    out = list(filter(lambda x: abs(x.price - price) < 42, monitors))
+    out = list(filter(lambda x: abs(x.price - price) < min(x.price >> 2, 42), monitors))
     return out
 
 

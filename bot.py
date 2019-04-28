@@ -326,7 +326,7 @@ async def per(context, tp, price: int, *args):
 
 
 @bot.command(pass_context=True)
-async def monitor(context, price: int, resoluton: str = '', refresh_rate: int = 0):
+async def monitor(context, price: int, resoluton: str = '', refresh_rate: int = 0, *args):
     res = builds.get_monitor(price, resoluton, refresh_rate)
 
     if not res:
@@ -343,9 +343,14 @@ async def monitor(context, price: int, resoluton: str = '', refresh_rate: int = 
     )
 
     for _ in res:
-        e.add_field(name=_.name, value="[{0}]({1})".format(str(_.price) + ' :euro:',
-                                                           'https://www.skroutz.gr/search?keyphrase=' + _.name),
-                    inline=False)
+        e.add_field(
+            name=_.name,
+            value="[{0}]({1})".format(
+                str(_.price) + ' :euro:',
+                _.url if _.url else ('https://www.skroutz.gr/search?keyphrase=' + _.name.split(' ').join('+'))
+            ),
+            inline=False
+        )
 
     await bot.say(embed=e)
 

@@ -118,7 +118,7 @@ class Pc(models.Model):
 class Monitor(models.Model):
     price = models.IntegerField(blank=False)
     name = models.CharField(max_length=64, blank=False, unique=True)
-    url = models.URLField(blank=True, unique=True)
+    url = models.URLField(blank=True)
     resolution = models.CharField(
         max_length=16,
         blank=False,

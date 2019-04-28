@@ -334,7 +334,7 @@ async def monitor(context, price: int, resoluton: str = '', refresh_rate: int = 
         return
 
     e = generate_embed(
-        title='{}€ {} {} monitros'.format(
+        title='{}€ {} {} monitors'.format(
             price,
             resoluton,
             (str(refresh_rate) + ' Hz' if refresh_rate else str())

@@ -2,6 +2,7 @@
 # bot.py
 # v3.2 - The new Generation
 
+import logging
 import os
 import re
 import time
@@ -65,18 +66,9 @@ async def pc(context, price: int, *args):
         await bot.add_reaction(context.message, '\U0001F4DD')
         return
 
-    print(context.message.channel.id, 'Requested: ')
-    print('args: ', args)
-    print('price :', price)
-
     answer = builds.getClosest(price, args)
 
     await bot.say(embed=answer.getemded())
-
-    # if answer:
-    #     await bot.say(answer.getspecs())
-    # else:
-    #     await bot.say(":thinking: :hugging: :fox: ")
 
     return
 
@@ -372,6 +364,7 @@ async def on_message(message):
         # Check if message in whitelisted channel
         if message.channel.id not in whitelist:
             return
+        logging.info((str(__import__('time').time()) + " " + message.author.id + " : " + str(message.content)))
         await bot.process_commands(message)
 
     return
@@ -390,7 +383,7 @@ async def on_ready():
     # Set rich presence
     await bot.change_presence(
         game=discord.Game(
-            name="Can't Let You do DAT"
+            name="I'm Sorry Dave!"
         )
     )
 
@@ -404,6 +397,13 @@ async def on_ready():
 
 if __name__ == "__main__":
     # bot = false case it's FUCKING user, not bot!
+    handler = logging.FileHandler("hal.log", "a", encoding="UTF-8")
+    formatter = logging.Formatter("%(message)s")
+    handler.setFormatter(formatter)
+    root_logger = logging.getLogger()
+    root_logger.addHandler(handler)
+    root_logger.setLevel(logging.INFO)
+
     bot.run(
         token,
         bot=False

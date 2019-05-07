@@ -28,6 +28,9 @@ def deep_dive(url: str, args: dict = {}) -> str:
     :param args: optional url parameters (must be formatted)
     :return: returns the actual url
     """
+    if url.find('skroutz.gr/s/') != -1:  # Reduce numbers of requests
+        return url
+
     url = BeautifulSoup(requests.get(url).text, 'html.parser').find(attrs={"rel": "canonical"}, href=True)['href']
 
     if url.find('skroutz.gr/c/') != -1:

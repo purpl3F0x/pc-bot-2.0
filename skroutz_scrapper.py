@@ -56,6 +56,7 @@ def get_product_page(url: str, max_num_of_res: int = 5, args: dict = {}) -> (lis
     Finds product prices from  product url, search query, or search result
     :param url: the actual url (product, search, or search result)
     :param max_num_of_res: =5max number of results (when available)
+    :param args: optional url parameters
     :return: list of lists with price and link, error message
     """
 
@@ -124,7 +125,9 @@ if __name__ == "__main__":
         if res:
             for r in res:
                 print(r['price'], msg)
+                print(res)
         else:
             print(msg)
+            exit()
 
         print('\n')

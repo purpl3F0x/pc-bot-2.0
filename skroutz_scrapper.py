@@ -98,7 +98,8 @@ def get_product_page(url: str, max_num_of_res: int = 5, args: dict = {}) -> (lis
                 {
                     'name' : title if max_num_of_res == 1 else o['title'],
                     'price': price_to_float(o.getText()),
-                    'url'  : "https://www.skroutz.gr" + o['href'] if max_num_of_res > 1 else actualURL
+                    'url'  : "https://www.skroutz.gr" + o['href'] if max_num_of_res > 1 else actualURL,
+                    '_'    : soup,
                 }
             )
         return ret_val, title

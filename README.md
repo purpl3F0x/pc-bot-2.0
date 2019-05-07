@@ -17,6 +17,6 @@ In case app reports tables probems run migrate with `--run-syncdb`.
 
 <br><br><br>
 
-##### Stavros Avramidis
-######| Never Settle & Keep Running
+#### Stavros Avramidis
+| Never Settle & Keep Running
 

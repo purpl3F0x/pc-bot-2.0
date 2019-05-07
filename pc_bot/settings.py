@@ -37,8 +37,10 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    # my apps
     'lists',
     'discord_admin',
+    'parts',
 ]
 
 MIDDLEWARE = [

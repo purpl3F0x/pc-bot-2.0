@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from .models import Helper, Monitor, Pc, Peripheral, Tag, UserBuild
+from .models import *
 
 
 # Register your models here.

@@ -4,6 +4,7 @@
 
 import logging
 import os
+import re
 import time
 
 import discord
@@ -15,7 +16,7 @@ import disc_admin
 import helper
 import quotes
 import skroutz_scrapper as skrtz
-from common import generate_embed
+from lists.common import generate_embed
 
 ##########################################################
 ##########################################################
@@ -41,6 +42,14 @@ bot = Bot(command_prefix='$')
 token = os.environ['TOKEN']
 
 
+############ Some helper funcitons ############
+def is_mention(s):
+    if re.match("<@+\d{18}>", s):
+        return s[2:20]
+
+    return False
+
+
 ###############################################
 ###############################################
 ###############################################
@@ -51,7 +60,7 @@ async def pc(context, price: int, *args):
     if context.message.channel.id not in whitelist:
         return
 
-    if context.message.author.id in disc_admin.get_black_list():
+    if context.message.author.id in disc_admin.getBlackList():
         await bot.add_reaction(context.message, '\U0001F622')
         await bot.add_reaction(context.message, '\U0001F5A4')
         await bot.add_reaction(context.message, '\U0001F4DD')
@@ -68,15 +77,20 @@ async def pc(context, price: int, *args):
 
 @bot.command(pass_context=True)
 async def build(context, arg, *args):
-    if context.message.author.id in disc_admin.get_black_list():
+    # Check if message in whitelisted channel
+    if context.message.channel.id not in whitelist:
+        return
+
+    if context.message.author.id in disc_admin.getBlackList():
         await bot.add_reaction(context.message, '\U0001F622')
         await bot.add_reaction(context.message, '\U0001F5A4')
         await bot.add_reaction(context.message, '\U0001F4DD')
         return
 
-    if helper.is_mention(arg):
+    if is_mention(arg):
+        print(is_mention(arg))
         answer = builds.getUserBuild(
-            user_id=helper.is_mention(arg)
+            user_id=is_mention(arg)
         )
 
     else:
@@ -99,8 +113,47 @@ async def build(context, arg, *args):
 ###############################################
 
 
-@bot.command(pass_context=False)
-async def info():
+@bot.command(pass_context=True)
+async def pc_all(context, min: int = 0, max: int = 1000000000, *args):
+    # Check if message in whitelisted channel
+    if context.message.channel.id not in whitelist:
+        return
+
+    if context.message.author.id not in disc_admin.getAdminsId():
+        await bot.say(
+            "I'm sorry <@" + context.message.author.id + "> ,I'm afraid I can't let you do that!\nI only obey my Daddy:purple_heart::fox: and his minions"
+        )
+        return
+
+    answer = builds. \
+        getAll(min, max)
+
+    if answer:
+        for b in answer:
+            await bot.say(
+                b.getSpecs()
+            )
+    else:
+        await bot.say(":thinking: :hugging: :fox: ")
+
+    return
+
+
+###############################################
+
+
+@bot.command(pass_context=True)
+async def info(context):
+    # Check if message in whitelisted channel
+    if context.message.channel.id not in whitelist:
+        return
+
+    if context.message.author.id in disc_admin.getBlackList():
+        await bot.add_reaction(context.message, '\U0001F622')
+        await bot.add_reaction(context.message, '\U0001F5A4')
+        await bot.add_reaction(context.message, '\U0001F4DD')
+        return
+
     res = """Thank ***Purpl3F0x*** for giving me life :purple_heart: :purple_heart: :purple_heart:
         Thank ***wiz*** for giving me food :apple:
         Thank ***Mand Break*** for cleaning my :poop:
@@ -129,13 +182,17 @@ async def info():
 
 @bot.command(pass_context=True)
 async def blacklist(context, member: discord.Member, reason=""):
-    if context.message.author.id not in disc_admin.get_admins():
+    # Check if message in whitelisted channel
+    if context.message.channel.id not in whitelist:
+        return
+
+    if context.message.author.id not in disc_admin.getAdminsId():
         await bot.say(
             "I'm sorry <@" + context.message.author.id + "> ,I'm afraid I can't let you do that!\nI only obey my Daddy:purple_heart::fox: and his minions"
         )
         return
 
-    disc_admin.black_list_user(member.id, reason)
+    disc_admin.blackListuser(member.id, reason)
 
     await bot.add_reaction(context.message, '\U0001F44D')
 
@@ -147,15 +204,18 @@ async def blacklist(context, member: discord.Member, reason=""):
 
 @bot.command(pass_context=True)
 async def hal(context, *args):
-    args = list(args)
+    if context.message.channel.id not in whitelist:
+        return
+
     for i in range(len(args)):
-        if helper.is_mention(args[i]):
+        if is_mention(args[i]):
             del args[i]
 
-    url = "http://lmgtfy.com/?q=" + "+".join(args)
+    retURL = 'http://lmgtfy.com/?q=%s' % "+".join(args)
 
-    embed = discord.Embed(description=" [%s](%s)" % (" ".join(args), url), color=0x836cff)
-    embed.set_footer(text="\'Cause I'm just a teenage dirtbag, baby...")
+    embed = discord.Embed(description=" [%s](%s)" % (" ".join(args), retURL), color=0x836cff)
+    # embed.set_thumbnail(url="http://www.patriotsanon.com/images/hal9000.gif")
+    embed.set_footer(text="'Cause I'm just a teenage dirtbag, baby...")
     await bot.say(embed=embed)
 
 
@@ -295,8 +355,10 @@ async def monitor(context, price: int, resoluton: str = '', refresh_rate: int = 
 @bot.event
 async def on_message(message):
     if message.channel.is_private and message.author.id != bot.user.id and message.channel.id != "468208302875213825":
-        quote = quotes.quote().replace("%user", ("<@" + message.author.id + ">"))
-        await __import__('asyncio').sleep(2)
+        quote = quotes.quote().replace(
+            "%user",
+            ("<@" + message.author.id + ">")
+        )
         await bot.send_message(message.channel, quote)
     else:
         # Check if message in whitelisted channel

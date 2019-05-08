@@ -4,7 +4,7 @@ from discord import Colour, Embed
 from django.core.validators import RegexValidator
 from django.db import models
 
-import common as common
+import lists.common as common
 import parts.models
 
 

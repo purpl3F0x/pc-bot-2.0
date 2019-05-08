@@ -2,6 +2,7 @@
 # helper.py
 
 import os
+import re
 
 import django
 from fuzzywuzzy import fuzz
@@ -18,3 +19,9 @@ def helperFuzzy(inStr):
         if fuzz.partial_ratio(h.name, inStr) > 80:
             return h
     return None
+
+
+def is_mention(s):
+    if re.match(r"<@!?\d{18}>", s):
+        return s[2:20]
+    return False

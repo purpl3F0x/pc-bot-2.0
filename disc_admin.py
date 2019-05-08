@@ -11,26 +11,30 @@ os.environ.setdefault("DJANGO_SETTINGS_MODULE", "pc_bot.settings")
 django.setup()
 
 
-def getAdminsId():
+def get_admins():
+    """
+    :return: returns all admins ID
+    """
     return [i.discord_id for i in discord_admin.models.Admin.objects.all()]
 
 
-def getBlackList():
+def get_black_list():
+    """
+    returns id of all blacklisted users
+    :return:
+    """
     return [i.discord_id for i in discord_admin.models.BlackUser.objects.all()]
 
 
-def blackListuser(user_id, reason=""):
+def black_list_user(user_id, reason=""):
+    """
+    Adds a user to Blacklist
+    :param user_id: Discord ID
+    :param reason:
+    :return:
+    """
     b = discord_admin.models.BlackUser(discord_id=user_id, reason=reason)
     try:
         b.save()
-    except:
+    except ...:
         pass
-
-    return
-
-
-if __name__ == "__main__":
-    print(getAdminsId())
-    print(getBlackList())
-
-    blackListuser("133245022719049728", "dd")

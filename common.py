@@ -24,6 +24,9 @@ facts = [
     'In Sydney 10,000m final Haile Gebreselasie won by a 0.09 sec.(closer that the 100m final) with achilles tendon rupture',
     'Current 10000m WR set by Kenenisa Bekele is 26:17.5 and is 63\"/400m (57.09 last lap)',
     'Current 5000M WR set by Kenenisa Bekele is 12:17.5 and is 60\"/400m',
+    'Eluid Kipchoge holds the seconds 2 fastest marathons ever ran',
+    'Jim Walmsley set a new 50-Mile WR by running 80.4km at 3:36 m/km pace',
+    'Highest ever recorded VO₂max is 96 mL/kg/min from Bjørn Dæhlie a xc-skier.'
 ]
 
 

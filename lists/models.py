@@ -130,7 +130,6 @@ class Build(models.Model):
     price = models.IntegerField(blank=True, default=0)
 
     def update_price(self, force=False):
-        print('Updating')
         # Price is all items that are required in model
         self.price = self.cpu.price + self.motherboard.price + self.ram.price + self.psu.price
         # price of gpu if any
@@ -142,7 +141,6 @@ class Build(models.Model):
             self.price += (sum([case.price for case in self.case.all()]) / self.case.all().count())
         # Price of accessories
         self.price += sum([c.price for c in self.others.all()])
-        print(sum([c.price for c in self.others.all()]))
 
     def save(self, *args, **kwargs):
         super(Build, self).save(*args, **kwargs)

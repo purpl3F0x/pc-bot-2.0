@@ -37,6 +37,15 @@ class BuildAdmin(admin.ModelAdmin):
         'gpu',
     )
 
+    def save_related(self, request, form, formset, change):
+        if change:
+            form.save_m2m()
+            form.save()
+        else:  # Adding a new UserGroup
+            form.save()  # Must be done before M2M save
+            form.save_m2m()
+            form.save()
+
 
 class UserBuildAdmin(admin.ModelAdmin):
     class Meta:

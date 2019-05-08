@@ -110,6 +110,7 @@ def get_product_page(url: str, max_num_of_res: int = 5, args: dict = {}) -> (lis
 
 if __name__ == "__main__":
     tests = [
+        '2323'
         'https://www.skroutz.gr/s/11912425/Corsair-Dominator-Platinum-16GB-DDR4-4000MHz-CMD16GX4M2E4000C19.html',
         'https://www.skroutz.gr/s/15281915/Intel-Core-i9-7900X-Tray.html',
         '42.17',

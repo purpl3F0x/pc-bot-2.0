@@ -158,18 +158,18 @@ async def info(context):
         Thank ***wiz*** for giving me food :apple:
         Thank ***Mand Break*** for cleaning my :poop:
         
-        __Version 3.2__
-
+        **__Version 4.0-beta__**
         https://github.com/purpl3F0x/pc-bot-2.0
-        *I want you
-        To be
-        Left behind those empty walls
-        Don't
-        You see
-        From behind those empty walls
-        Those empty walls
-        When we decline, from the confines of our mind
-        Don't waste your time, on coffins today*
+        
+        *Peel me from the skin, tear me from the rind
+        Does it make you happy now?
+        Tear meat from the bone, tear me from myself
+        Are you feeling happy now?*
+        
+        *Does it make you happy?
+        Are you feeling happy?
+        Are you fucking happy
+        Now that I'm lost, left with nothing?*
         """
 
     embed = discord.Embed(description=res, color=0x836cff)

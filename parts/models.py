@@ -1,5 +1,6 @@
 from django.core.exceptions import ValidationError
 from django.db import models
+from django.utils.timezone import now
 
 import skroutz_scrapper as skroutz
 
@@ -29,21 +30,30 @@ class AbstractPart(models.Model):
     url = models.URLField(unique=True, blank=False, validators=[validate_skroutz_url])
     name = models.CharField(blank=True, max_length=128)
     price = models.IntegerField(blank=True)
+    last_modified = models.DateTimeField(blank=True)
+
+    def update(self, force=False):
+        if self.last_modified and (now() - self.last_modified).days == 0 and self.price and self.name and not force:
+            return True
+
+        res, title = skroutz.get_product_page(self.url)
+        if res:
+            self.name = title
+            self.price = int(res[0]['price'])
+            self.last_modified = now()
+            return True
+        else:
+            return False
 
     def clean(self):
-        if not self.name or not self.price:
-            raise ValidationError('Seems there was a problem, Check url is valid else try later')
+        if not self.update():
+            raise ValidationError('Error')
+        if not self.price:
+            raise ValidationError('Error')
 
     def save(self, *args, **kwargs):
-        try:
-            res, title = skroutz.get_product_page(self.url)
-            if len(res):
-                self.name = title if not self.name else self.name
-                self.price = int(res[0]['price'])
-
-        finally:
-            self.full_clean()
-            super(AbstractPart, self).save(*args, **kwargs)
+        self.full_clean()
+        super(AbstractPart, self).save(*args, **kwargs)
 
     def publish(self):
         self.save()
@@ -79,17 +89,10 @@ class Case(AbstractPart):
     pass
 
 
-class Part(AbstractPart):
+class Cooler(AbstractPart):
     pass
 
 
-class Entity(models.Model):
-    cpu = models.ForeignKey(CPU, blank=False, on_delete=models.PROTECT)
-    ram = models.ForeignKey(RAM, blank=False, on_delete=models.PROTECT)
-    motherboard = models.ForeignKey(Motherboard, blank=False, null=True, on_delete=models.PROTECT)
-    psu = models.ForeignKey(PSU, blank=False, on_delete=models.PROTECT)
-    gpu = models.ForeignKey(GPU, blank=True, null=True, on_delete=models.PROTECT)
-
-    case = models.ManyToManyField(Case, blank=True)
-
-    rest_items = models.ManyToManyField(Part, blank=True)
+class Part(AbstractPart):
+    description = models.CharField(max_length=32)
+    pass

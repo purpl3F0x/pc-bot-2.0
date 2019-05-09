@@ -61,6 +61,9 @@ class AbstractPart(models.Model):
     def __str__(self):
         return self.name if self.name else self.url
 
+    def clean_name(self):
+        return __import__('re').sub(r" ?\([^)]+\)", "", self.name)
+
     class Meta:
         abstract = True
 

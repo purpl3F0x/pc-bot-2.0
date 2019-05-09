@@ -1,6 +1,11 @@
+import re
 from random import choice
 
 from discord import Colour, Embed
+
+hal_url = 'http://3.120.5.250:8000/'
+dave_gif = 'https://media.giphy.com/media/aFfYlsEdiWPDi/giphy.gif'
+hal_gif = 'https://s3.amazonaws.com/gs-geo-images/356c3dd8-5d59-48cd-9a0b-5d638e6d48cd.gif'
 
 captions = [
     "Stacy's mom has got it goin' on,\nhe's all I want and I've waited for so long",
@@ -30,13 +35,39 @@ facts = [
 ]
 
 
-def generate_embed(title: str = "", description: str = choice(captions), add_images: bool = True):
-    embed = Embed(title=title, colour=Colour(0x8567ff), url="http://3.120.5.250:8000/",
+def generate_embed(title: str = "", description: str = 'rand_quote', add_images: bool = True):
+    if description is 'rand_quote':
+        description = choice(captions)
+
+    embed = Embed(title=title, colour=Colour(0x8567ff), url=hal_url,
                   description=description)
     if add_images:
-        embed.set_image(url="https://media.giphy.com/media/aFfYlsEdiWPDi/giphy.gif")
-        embed.set_thumbnail(url="https://s3.amazonaws.com/gs-geo-images/356c3dd8-5d59-48cd-9a0b-5d638e6d48cd.gif")
+        embed.set_thumbnail(url=dave_gif)
     embed.set_author(name="Hal", url="http://3.120.5.250:8000/",
-                     icon_url="https://media.giphy.com/media/aFfYlsEdiWPDi/giphy.gif")
+                     icon_url=hal_gif)
     embed.set_footer(text=choice(facts))
     return embed
+
+
+def is_mention(s):
+    """
+    Checks if a string is a user mention
+    :param s:
+    :return: returns the userID in case of mention else 0
+    """
+    if re.match(r"<@!?\d{18}>", s):
+        return s[2:20]
+    return 0
+
+
+def split_mentions(l: list or tuple) -> (list, list):
+    """
+    Removes mentions from list of strings and returns both as separate lists
+    :param l: list of strings
+    :return: (arguments, mentions)
+    """
+    arguments, mentions = [], []
+    for _ in l:
+        (mentions if is_mention(_) else arguments).append(_)
+
+    return arguments, mentions

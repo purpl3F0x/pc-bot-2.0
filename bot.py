@@ -1,6 +1,9 @@
-# Stavros Avramidis
-# bot.py
-# v3.2 - The new Generation
+# # # # # # # # # # # # # # # # # # #
+#                                   #
+# @filename:    bot.py              #
+# @author:      Stavros Avramidis   #
+#                                   #
+# # # # # # # # # # # # # # # # # # #
 
 import logging
 import os
@@ -9,22 +12,12 @@ import time
 import discord
 from discord.ext.commands import Bot
 
+import common
 # local imports
-import builds
-import disc_admin
-import helper
+import db_access
 import quotes
 import skroutz_scrapper as skrtz
 from common import generate_embed
-
-##########################################################
-##########################################################
-# Dept. of Redundancy Department
-# (2B || !2B) == true
-# Which is a statement that's true and it's always correct
-##########################################################
-##########################################################
-
 
 # Server channels whitelist
 whitelist = [
@@ -47,60 +40,27 @@ token = os.environ['TOKEN']
 
 @bot.command(pass_context=True)
 async def pc(context, price: int, *args):
-    # Check if message in whitelisted channel
-    if context.message.channel.id not in whitelist:
-        return
+    """
+    Messages a build close to the given price
+    :param context: msg context
+    :param price: build target price
+    :param args: optional arguments
+    :return:
+    """
+    text, mentions = common.split_mentions(args)
+    answer = db_access.get_builds(price)
 
-    if context.message.author.id in disc_admin.get_black_list():
-        await bot.add_reaction(context.message, '\U0001F622')
-        await bot.add_reaction(context.message, '\U0001F5A4')
-        await bot.add_reaction(context.message, '\U0001F4DD')
-        return
-
-    answer = builds.getClosest(price, args)
-
-    await bot.say(embed=answer.getemded())
-
-    return
-
-
-###############################################
-
-@bot.command(pass_context=True)
-async def build(context, arg, *args):
-    if context.message.author.id in disc_admin.get_black_list():
-        await bot.add_reaction(context.message, '\U0001F622')
-        await bot.add_reaction(context.message, '\U0001F5A4')
-        await bot.add_reaction(context.message, '\U0001F4DD')
-        return
-
-    if helper.is_mention(arg):
-        answer = builds.getUserBuild(
-            user_id=helper.is_mention(arg)
-        )
-
-    else:
-        answer = builds.getUserBuild(
-            name=arg
-        )
-
-    print(answer)
-
-    if answer:
-        await  bot.say(answer.getSpecs())
-        if answer.monitor:
-            await bot.say(answer.monitor)
-        if answer.message:
-            await bot.say(answer.message)
-
-    return
-
-
-###############################################
+    for i in answer:
+        await bot.say(embed=i.get_as_embed())
 
 
 @bot.command(pass_context=False)
 async def info():
+    """
+    Prints bot info
+    :return:
+    """
+
     res = """Thank ***Purpl3F0x*** for giving me life :purple_heart: :purple_heart: :purple_heart:
         Thank ***wiz*** for giving me food :apple:
         Thank ***Mand Break*** for cleaning my :poop:
@@ -125,60 +85,68 @@ async def info():
     return
 
 
-###############################################
-
 @bot.command(pass_context=True)
 async def blacklist(context, member: discord.Member, reason=""):
-    if context.message.author.id not in disc_admin.get_admins():
-        await bot.say(
-            "I'm sorry <@" + context.message.author.id + "> ,I'm afraid I can't let you do that!\nI only obey my Daddy:purple_heart::fox: and his minions"
-        )
+    """
+    Adds a user to the blacklist
+    :param context: msg context
+    :param member: member mention
+    :param reason: reason for banning (optional)
+    :return:
+    """
+
+    if context.message.author.id not in db_access.get_admins():
+        await bot.add_reaction(context.message, '\U0001F622')
+        await bot.add_reaction(context.message, '\U0001F5A4')
+        await bot.add_reaction(context.message, '\U0001F4DD')
         return
 
-    disc_admin.black_list_user(member.id, reason)
-
+    db_access.black_list_user(member.id, reason)
     await bot.add_reaction(context.message, '\U0001F44D')
-
-    return
-
-
-###############################################
 
 
 @bot.command(pass_context=True)
 async def hal(context, *args):
-    args = list(args)
-    for i in range(len(args)):
-        if helper.is_mention(args[i]):
-            del args[i]
+    """
+    The master command of trolls
+    :param context: msg context
+    :param args: list of command args
+    :return:
+    """
+    text, mentions = common.split_mentions(args)
 
-    url = "http://lmgtfy.com/?q=" + "+".join(args)
+    url = "http://lmgtfy.com/?q=" + "+".join(text)
 
-    embed = discord.Embed(description=" [%s](%s)" % (" ".join(args), url), color=0x836cff)
+    embed = discord.Embed(description=" [%s](%s)" % (" ".join(text), url), color=0x836cff)
     embed.set_footer(text="\'Cause I'm just a teenage dirtbag, baby...")
     await bot.say(embed=embed)
 
 
-###############################################
-
-
 @bot.command(pass_context=True)
 async def helpme(context, *, arg):
-    h = helper.helperFuzzy(arg)
+    """
+    Messages a helper, uses fuzzy match
+    :param context: msg context
+    :param arg: helper descriptions
+    :return:
+    """
+
+    h = db_access.helper_fuzzy_match(arg)
     if h is not None:
         await bot.say(embed=h.get_embed())
-    return
-
-
-###############################################
-
-skroutz_cmd_arg = {'--desc', '--asc'}
-lxr = {'desc': {'order_dir': 'desc'}, 'asc': {'order_dir': 'asc'}, 'price': {'order_by': 'pricevat'},
-       'pop' : {'order_by': 'popularity'}}
 
 
 @bot.command(pass_context=True)
 async def skroutz(context, *args):
+    """
+    Searches skroutz for a product
+    :param context: msg context
+    :param args: product to search and optional arguments
+    :return:
+    """
+    skroutz_cmd_arg = {'--desc', '--asc'}
+    lxr = {'desc': {'order_dir': 'desc'}, 'asc': {'order_dir': 'asc'}, 'price': {'order_by': 'pricevat'},
+           'pop' : {'order_by': 'popularity'}}
     start = time.time()
     cmd_args, q_args = [], []
     for x in args:
@@ -230,15 +198,24 @@ async def skroutz(context, *args):
 
 @bot.command(pass_context=True)
 async def per(context, tp, price: int, *args):
+    """
+    Messages a peripheral
+    :param context:
+    :param tp: type of peripheral
+    :param price: target price
+    :param args: optional args
+    :return:
+    """
+
     tp = tp.lower()
     res = []
 
     if tp == 'mouse':
-        res = builds.get_peripheral(price, '1')
+        res = db_access.get_peripheral(price, '1')
     elif tp == 'keyboard':
-        res = builds.get_peripheral(price, '2')
+        res = db_access.get_peripheral(price, '2')
     elif tp == 'headset':
-        res = builds.get_peripheral(price, '3')
+        res = db_access.get_peripheral(price, '3')
 
     if not res:
         await bot.add_reaction(context.message, '\U0001F623')
@@ -258,8 +235,18 @@ async def per(context, tp, price: int, *args):
 
 
 @bot.command(pass_context=True)
-async def monitor(context, price: int, resoluton: str = '', refresh_rate: int = 0, *args):
-    res = builds.get_monitor(price, resoluton, refresh_rate)
+async def monitor(context, price: int, resolution: str = '', refresh_rate: int = 0, *args):
+    """
+
+    :param context:
+    :param price:
+    :param resolution:
+    :param refresh_rate:
+    :param args:
+    :return:
+    """
+
+    res = db_access.get_monitor(price, resolution, refresh_rate)
 
     if not res:
         await bot.add_reaction(context.message, '\U0001F623')
@@ -268,7 +255,7 @@ async def monitor(context, price: int, resoluton: str = '', refresh_rate: int = 
     e = generate_embed(
         title='{}€ {} {} monitors'.format(
             price,
-            resoluton,
+            resolution,
             (str(refresh_rate) + ' Hz' if refresh_rate else str())
         ),
         add_images=False
@@ -283,17 +270,18 @@ async def monitor(context, price: int, resoluton: str = '', refresh_rate: int = 
             ),
             inline=False
         )
-
     await bot.say(embed=e)
 
     return
 
 
-###############################################
-
-
 @bot.event
 async def on_message(message):
+    """
+    Filters message before triggering commands
+    :param message:
+    :return:
+    """
     if message.channel.is_private and message.author.id != bot.user.id and message.channel.id != "468208302875213825":
         quote = quotes.quote().replace("%user", ("<@" + message.author.id + ">"))
         await __import__('asyncio').sleep(2)
@@ -303,6 +291,12 @@ async def on_message(message):
         if message.channel.id not in whitelist:
             return
         logging.info((str(__import__('time').time()) + " " + message.author.id + " : " + str(message.content)))
+
+        if message.author.id in db_access.get_black_list():
+            await bot.add_reaction(message, '\U0001F622')
+            await bot.add_reaction(message, '\U0001F5A4')
+            await bot.add_reaction(message, '\U0001F4DD')
+            return
         await bot.process_commands(message)
 
     return
@@ -313,6 +307,10 @@ async def on_message(message):
 
 @bot.event
 async def on_ready():
+    """
+    Listener function doing things when bot is connected
+    :return:
+    """
     print('Logged in as')
     print(bot.user.name)
     print(bot.user.id)
@@ -332,7 +330,6 @@ async def on_ready():
 
 
 # Let the Magik begin
-
 if __name__ == "__main__":
     # bot = false case it's FUCKING user, not bot!
     handler = logging.FileHandler("hal.log", "a", encoding="UTF-8")

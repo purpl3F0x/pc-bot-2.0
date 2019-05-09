@@ -16,8 +16,7 @@ def price_to_float(s: str) -> float:
     :return: return price in float
     """
     res = re.match(price_rgx, s)
-    ret_val = (res.group(2)
-               if res.group(2) else "") + res.group(3) + "." + res.group(4)
+    ret_val = (res.group(2) if res.group(2) else "") + res.group(3) + "." + res.group(4)
     return float(ret_val)
 
 

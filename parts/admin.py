@@ -5,6 +5,7 @@ from .models import *
 
 class PartAdmin(admin.ModelAdmin):
     readonly_fields = ('last_modified', 'price', 'name',)
+    ordering = ('name',)
 
     list_display = (
         '__str__',

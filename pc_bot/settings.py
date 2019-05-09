@@ -38,6 +38,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     # my apps
+    'markdownx',
+    # project apps
     'lists',
     'discord_admin',
     'parts',

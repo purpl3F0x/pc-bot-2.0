@@ -4,3 +4,4 @@ fuzzywuzzy
 python-Levenshtein
 regex
 bs4
+django-markdownx

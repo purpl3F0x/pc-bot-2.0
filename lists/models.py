@@ -1,119 +1,8 @@
-from random import choice
-
-from discord import Colour, Embed
-from django.core.validators import RegexValidator
 from django.db import models
+from markdownx.models import MarkdownxField
 
 import common as common
 import parts.models
-
-
-class Tag(models.Model):
-    val = models.CharField(max_length=15)
-
-    def publish(self):
-        self.save()
-
-    def __str__(self):
-        return self.val
-
-
-class Pc(models.Model):
-    price = models.IntegerField(blank=False)
-
-    # Specs
-    cpu = models.CharField(max_length=64, blank=False)
-    gpu = models.CharField(max_length=64, blank=True)
-    mobo = models.CharField(max_length=64, blank=False)
-    ram = models.CharField(max_length=64, blank=False)
-    psu = models.CharField(max_length=64, blank=False)
-    ssd = models.CharField(max_length=64, blank=True)
-    hdd = models.CharField(max_length=64, blank=True)
-    cooler = models.CharField(max_length=64, blank=True)
-    case = models.CharField(max_length=64, blank=True)
-
-    active = models.BooleanField(default=True)
-
-    tags = models.ManyToManyField(Tag)
-
-    comment = models.TextField(blank=True)
-
-    def publish(self):
-        self.save()
-
-    def __str__(self):
-        return str(self.price) + '€ (' + self.cpu + ')'
-
-    def getSpecs(self):  # Oh this is going to be a messsh!
-        out = ''
-        out += 'CPU: ' + self.cpu + '\n'
-
-        if self.gpu:
-            out += 'GPU: ' + self.gpu + '\n'
-
-        out += 'Mobo: ' + self.mobo + '\n'
-        out += 'RAM: ' + self.ram + '\n'
-        out += 'PSU: ' + self.psu + '\n'
-
-        if self.ssd:
-            out += 'SSD: ' + self.ssd + '\n'
-        if self.hdd:
-            out += 'HDD: ' + self.hdd + '\n'
-        if self.case:
-            out += 'Case: ' + self.case + '\n'
-        if self.cooler:
-            out += 'Cooler: ' + self.cooler + '\n'
-
-        return out
-
-    def getemded(self):
-
-        embed = Embed(title=str(self.price) + "€", colour=Colour(0x8567ff), url="http://3.120.5.250:8000/",
-                      description="*" + choice(common.captions) + ".*")
-
-        # embed.set_image(url="https://media.giphy.com/media/aFfYlsEdiWPDi/giphy.gif")
-        embed.set_thumbnail(url="https://s3.amazonaws.com/gs-geo-images/356c3dd8-5d59-48cd-9a0b-5d638e6d48cd.gif")
-        embed.set_author(name="Hal", url="http://3.120.5.250:8000/",
-                         icon_url="https://media.giphy.com/media/aFfYlsEdiWPDi/giphy.gif")
-        embed.set_footer(text=choice(common.facts))
-
-        embed.add_field(name="CPU", value="[{0}]({1})".format(self.cpu,
-                                                              "https://www.skroutz.gr/search?keyphrase=" + str(
-                                                                  self.cpu).replace(' ', '%20')))
-        if self.gpu:
-            embed.add_field(name="GPU", value="[{0}]({1})".format(self.gpu,
-                                                                  "https://www.skroutz.gr/search?keyphrase=" + str(
-                                                                      self.gpu).replace(' ', '%20')))
-
-        embed.add_field(name="Mo/Bo", value="[{0}]({1})".format(self.mobo,
-                                                                "https://www.skroutz.gr/search?keyphrase=" + str(
-                                                                    self.mobo).replace(' ', '%20')))
-        embed.add_field(name="RAM", value="[{0}]({1})".format(self.ram,
-                                                              "https://www.skroutz.gr/search?keyphrase=" + str(
-                                                                  self.ram).replace(' ', '%20')))
-        embed.add_field(name="PSU", value="[{0}]({1})".format(self.psu,
-                                                              "https://www.skroutz.gr/search?keyphrase=" + str(
-                                                                  self.psu).replace(' ', '%20')))
-        if self.ssd:
-            embed.add_field(name="SSD", value="[{0}]({1})".format(self.ssd,
-                                                                  "https://www.skroutz.gr/search?keyphrase=" + (
-                                                                      self.ssd).replace(' ', '%20')))
-        if self.hdd:
-            embed.add_field(name="HDD", value="[{0}]({1})".format(self.hdd,
-                                                                  "https://www.skroutz.gr/search?keyphrase=" + str(
-                                                                      self.hdd).replace(' ', '%20')))
-        if self.case:
-            embed.add_field(name="Case", value="[{0}]({1})".format(self.case,
-                                                                   "https://www.skroutz.gr/search?keyphrase=" + str(
-                                                                       self.case).replace(' ', '%20')))
-        if self.cooler:
-            embed.add_field(name="Cooler", value="[{0}]({1})".format(self.cooler,
-                                                                     "https://www.skroutz.gr/search?keyphrase=" + str(
-                                                                         self.cooler).replace(' ', '%20')))
-
-        # if self.comment :
-        #     out += '\n' + self.comment + '\n'
-        return embed
 
 
 class Build(models.Model):
@@ -122,14 +11,20 @@ class Build(models.Model):
     cpu = models.ForeignKey(parts.models.CPU, blank=False, on_delete=models.PROTECT)
     motherboard = models.ForeignKey(parts.models.Motherboard, blank=False, on_delete=models.PROTECT)
     ram = models.ForeignKey(parts.models.RAM, blank=False, on_delete=models.PROTECT)
-    gpu = models.ForeignKey(parts.models.GPU, blank=True, on_delete=models.PROTECT)
+    gpu = models.ForeignKey(parts.models.GPU, blank=True, null=True, on_delete=models.PROTECT)
     psu = models.ForeignKey(parts.models.PSU, blank=False, on_delete=models.PROTECT)
-    cooler = models.ForeignKey(parts.models.Cooler, blank=True, on_delete=models.PROTECT)
+    cooler = models.ForeignKey(parts.models.Cooler, blank=True, null=True, on_delete=models.PROTECT)
     case = models.ManyToManyField(parts.models.Case, blank=True)
     others = models.ManyToManyField(parts.models.Part, blank=True)
     price = models.IntegerField(blank=True, default=0)
+    description = MarkdownxField(blank=True)
 
     def update_price(self, force=False):
+        """
+        Updates object price
+        :param force: forces update all objects (depreciated)y
+        :return:
+        """
         # Price is all items that are required in model
         self.price = self.cpu.price + self.motherboard.price + self.ram.price + self.psu.price
         # price of gpu if any
@@ -152,6 +47,46 @@ class Build(models.Model):
 
     def __str__(self):
         return self.name if self.name else str(self.cpu) + ' ' + str(self.price)
+
+    def get_as_embed(self) -> common.Embed:
+        """
+        Generates a Discord embed object
+        :return: discord.Embed
+        """
+        embed = common.generate_embed(
+            title=self.name,
+            description=self.description if self.description else 'rand_quote',
+            add_images=True
+        )
+
+        embed.set_author(name=str(self.price) + ' 💶', url=common.hal_url, icon_url=common.hal_gif)
+
+        def markdown_url(text, url):
+            return '[%s](%s)' % (str(text), str(url))
+
+        embed.add_field(name="CPU", value=markdown_url(self.cpu.clean_name(), self.cpu.url), inline=True)
+
+        embed.add_field(name="RAM", value=markdown_url(self.ram.clean_name(), self.ram.url), inline=True)
+
+        embed.add_field(name="Motherboard", value=markdown_url(self.motherboard.clean_name(), self.motherboard.url),
+                        inline=True)
+        embed.add_field(name="GPU", value=markdown_url(self.gpu.clean_name(), self.gpu.url) if self.gpu else 'igpu',
+                        inline=True)
+        embed.add_field(name="PSU", value=markdown_url(self.psu.clean_name(), self.psu.url), inline=True)
+
+        embed.add_field(name="Cooler",
+                        value=markdown_url(self.cooler.clean_name(), self.cooler.url) if self.cooler else 'stock',
+                        inline=True)
+
+        for o in self.others.all():
+            embed.add_field(name=o.description, value=markdown_url(o.clean_name(), o.url), inline=True)
+
+        if self.case.count():
+            embed.add_field(name="📦", value='Some cases to see', inline=False)
+            for c in self.case.all():
+                embed.add_field(name='🙊', value=markdown_url(c.clean_name(), c.url), inline=False)
+
+        return embed
 
 
 class Monitor(models.Model):
@@ -177,27 +112,6 @@ class Monitor(models.Model):
     def __str__(self):
         return self.name + ' ' + str(self.price) + '€ ' + self.get_resolution_display() + ' ' + str(
             self.refresh_rate) + 'Hz(1/s)'
-
-
-class UserBuild(models.Model):
-    discord_id_validator = RegexValidator(r'\d{18}', 'Only numeric characters are allowed.')
-
-    name = models.CharField(max_length=64, blank=True)
-    owner = models.CharField(blank=True, max_length=18, validators=[discord_id_validator])
-
-    pc = models.OneToOneField(Pc, on_delete=models.CASCADE)
-    monitor = models.OneToOneField(Monitor, blank=True, null=True, on_delete=models.CASCADE)
-
-    message = models.TextField(blank=True)
-
-    def publish(self):
-        self.save()
-
-    def __str__(self):
-        return self.name + ' ' + self.owner
-
-    def getSpecs(self):
-        return self.pc.getSpecs()
 
 
 class Helper(models.Model):

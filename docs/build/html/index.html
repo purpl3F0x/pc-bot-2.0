@@ -1,0 +1,895 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8"/>
+    <title>Welcome to Hal 9000’s documentation! &#8212; Hal 9000 4.0 documentation</title>
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css"/>
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css"/>
+    <script type="text/javascript" id="documentation_options" data-url_root="./"
+            src="_static/documentation_options.js"></script>
+    <script type="text/javascript" src="_static/jquery.js"></script>
+    <script type="text/javascript" src="_static/underscore.js"></script>
+    <script type="text/javascript" src="_static/doctools.js"></script>
+    <script type="text/javascript" src="_static/language_data.js"></script>
+    <link rel="index" title="Index" href="genindex.html"/>
+    <link rel="search" title="Search" href="search.html"/>
+
+    <link rel="stylesheet" href="_static/custom.css" type="text/css"/>
+
+
+    <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9"/>
+
+</head>
+<body>
+
+
+<div class="document">
+    <div class="documentwrapper">
+        <div class="bodywrapper">
+
+
+            <div class="body" role="main">
+
+                <div class="section" id="welcome-to-hal-9000-s-documentation">
+                    <h1>Welcome to Hal 9000’s documentation!<a class="headerlink"
+                                                               href="#welcome-to-hal-9000-s-documentation"
+                                                               title="Permalink to this headline">¶</a></h1>
+                    <div class="toctree-wrapper compound">
+                    </div>
+                    <div class="section" id="module-bot">
+                        <span id="hal-9000-bot"></span>
+                        <h2>Hal 9000 bot<a class="headerlink" href="#module-bot"
+                                           title="Permalink to this headline">¶</a></h2>
+                        <span class="target" id="module-bot"></span>
+                        <p>Discord bot
+                            Starts the discord bot, and add listeners to commends</p>
+                        <dl class="function">
+                            <dt id="bot.on_message">
+                                <code class="descclassname">bot.</code><code class="descname">on_message</code><span
+                                    class="sig-paren">(</span><em>message</em><span class="sig-paren">)</span><a
+                                    class="headerlink" href="#bot.on_message" title="Permalink to this definition">¶</a>
+                            </dt>
+                            <dd><p>Filters message before triggering commands</p>
+                                <dl class="field-list simple">
+                                    <dt class="field-odd">Parameters</dt>
+                                    <dd class="field-odd"><p><strong>message</strong> – received message from discord
+                                    </p>
+                                    </dd>
+                                    <dt class="field-even">Returns</dt>
+                                    <dd class="field-even"><p></p>
+                                    </dd>
+                                </dl>
+                            </dd>
+                        </dl>
+
+                        <dl class="function">
+                            <dt id="bot.on_ready">
+                                <code class="descclassname">bot.</code><code class="descname">on_ready</code><span
+                                    class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink"
+                                                                                                 href="#bot.on_ready"
+                                                                                                 title="Permalink to this definition">¶</a>
+                            </dt>
+                            <dd><p>Listener function doing things when bot is connected</p>
+                                <dl class="field-list simple">
+                                    <dt class="field-odd">Returns</dt>
+                                    <dd class="field-odd"><p></p>
+                                    </dd>
+                                </dl>
+                            </dd>
+                        </dl>
+
+                    </div>
+                    <hr class="docutils"/>
+                    <div class="section" id="module-skroutz_scrapper">
+                        <span id="skroutz-scrapping-library"></span>
+                        <h2>Skroutz Scrapping library<a class="headerlink" href="#module-skroutz_scrapper"
+                                                        title="Permalink to this headline">¶</a></h2>
+                        <span class="target" id="module-skroutz_scrapper"></span>
+                        <p>Library for web-scrapping and parsing skroutz.com</p>
+                        <dl class="function">
+                            <dt id="skroutz_scrapper.deep_dive">
+                                <code class="descclassname">skroutz_scrapper.</code><code
+                                    class="descname">deep_dive</code><span class="sig-paren">(</span><em>url: str</em>,
+                                <em>args: dict = {}</em><span class="sig-paren">)</span> &#x2192; str<a
+                                    class="headerlink" href="#skroutz_scrapper.deep_dive"
+                                    title="Permalink to this definition">¶</a></dt>
+                            <dd><p>Returns actual url, of search - tries to navigate to tech. category if multiple
+                                results</p>
+                                <dl class="field-list simple">
+                                    <dt class="field-odd">Parameters</dt>
+                                    <dd class="field-odd">
+                                        <ul class="simple">
+                                            <li><p><strong>url</strong> – url</p></li>
+                                            <li><p><strong>args</strong> – optional url parameters (must be formatted)
+                                            </p></li>
+                                        </ul>
+                                    </dd>
+                                    <dt class="field-even">Returns</dt>
+                                    <dd class="field-even"><p>returns the actual url</p>
+                                    </dd>
+                                </dl>
+                            </dd>
+                        </dl>
+
+                        <dl class="function">
+                            <dt id="skroutz_scrapper.get_product_page">
+                                <code class="descclassname">skroutz_scrapper.</code><code class="descname">get_product_page</code><span
+                                    class="sig-paren">(</span><em>url: str</em>, <em>max_num_of_res: int = 5</em>, <em>args:
+                                dict = {}) -&gt; (&lt;class 'list'&gt;</em>, <em>&lt;class 'str'&gt;</em><span
+                                    class="sig-paren">)</span><a class="headerlink"
+                                                                 href="#skroutz_scrapper.get_product_page"
+                                                                 title="Permalink to this definition">¶</a></dt>
+                            <dd><p>Finds product prices from product url, search query, or search result</p>
+                                <dl class="field-list simple">
+                                    <dt class="field-odd">Parameters</dt>
+                                    <dd class="field-odd">
+                                        <ul class="simple">
+                                            <li><p><strong>url</strong> – the actual url (product, search, or search
+                                                result)</p></li>
+                                            <li><p><strong>max_num_of_res</strong> – =5max number of results (when
+                                                available)</p></li>
+                                            <li><p><strong>args</strong> – optional url parameters</p></li>
+                                        </ul>
+                                    </dd>
+                                    <dt class="field-even">Returns</dt>
+                                    <dd class="field-even"><p>list of lists with price and link, error message</p>
+                                    </dd>
+                                </dl>
+                            </dd>
+                        </dl>
+
+                        <dl class="function">
+                            <dt id="skroutz_scrapper.price_to_float">
+                                <code class="descclassname">skroutz_scrapper.</code><code class="descname">price_to_float</code><span
+                                    class="sig-paren">(</span><em>s: str</em><span class="sig-paren">)</span> &#x2192;
+                                float<a class="headerlink" href="#skroutz_scrapper.price_to_float"
+                                        title="Permalink to this definition">¶</a></dt>
+                            <dd><p>Converts a string with format ‘n.nnn,nn €’ to float</p>
+                                <dl class="field-list simple">
+                                    <dt class="field-odd">Parameters</dt>
+                                    <dd class="field-odd"><p><strong>s</strong> – the price</p>
+                                    </dd>
+                                    <dt class="field-even">Returns</dt>
+                                    <dd class="field-even"><p>return price in float</p>
+                                    </dd>
+                                </dl>
+                            </dd>
+                        </dl>
+
+                    </div>
+                    <hr class="docutils"/>
+                    <div class="section" id="module-common">
+                        <span id="common"></span>
+                        <h2>Common<a class="headerlink" href="#module-common" title="Permalink to this headline">¶</a>
+                        </h2>
+                        <span class="target" id="module-common"></span>
+                        <p>This module contains various functions used across the project.</p>
+                        <dl class="function">
+                            <dt id="common.generate_embed">
+                                <code class="descclassname">common.</code><code
+                                    class="descname">generate_embed</code><span class="sig-paren">(</span><em>title: str
+                                = ''</em>, <em>description: str = 'rand_quote'</em>, <em>add_images: bool =
+                                True</em><span class="sig-paren">)</span><a class="headerlink"
+                                                                            href="#common.generate_embed"
+                                                                            title="Permalink to this definition">¶</a>
+                            </dt>
+                            <dd><p>Generator for prototype discord embed message</p>
+                                <dl class="field-list simple">
+                                    <dt class="field-odd">Parameters</dt>
+                                    <dd class="field-odd">
+                                        <ul class="simple">
+                                            <li><p><strong>title</strong> – Embed title</p></li>
+                                            <li><p><strong>description</strong> – Embed discription</p></li>
+                                            <li><p><strong>add_images</strong> – option to include thumbnail image</p>
+                                            </li>
+                                        </ul>
+                                    </dd>
+                                    <dt class="field-even">Returns</dt>
+                                    <dd class="field-even"><p>discord.Embed obj</p>
+                                    </dd>
+                                </dl>
+                            </dd>
+                        </dl>
+
+                        <dl class="function">
+                            <dt id="common.is_mention">
+                                <code class="descclassname">common.</code><code class="descname">is_mention</code><span
+                                    class="sig-paren">(</span><em>s: str</em><span class="sig-paren">)</span><a
+                                    class="headerlink" href="#common.is_mention"
+                                    title="Permalink to this definition">¶</a></dt>
+                            <dd><p>Checks if a string is a user mention</p>
+                                <dl class="field-list simple">
+                                    <dt class="field-odd">Parameters</dt>
+                                    <dd class="field-odd"><p><strong>s</strong> – String to check</p>
+                                    </dd>
+                                    <dt class="field-even">Returns</dt>
+                                    <dd class="field-even"><p>returns the userID in case of mention else 0</p>
+                                    </dd>
+                                </dl>
+                            </dd>
+                        </dl>
+
+                        <dl class="function">
+                            <dt id="common.split_mentions">
+                                <code class="descclassname">common.</code><code
+                                    class="descname">split_mentions</code><span class="sig-paren">(</span><em>l: list) -&gt;
+                                (&lt;class 'list'&gt;</em>, <em>&lt;class 'list'&gt;</em><span
+                                    class="sig-paren">)</span><a class="headerlink" href="#common.split_mentions"
+                                                                 title="Permalink to this definition">¶</a></dt>
+                            <dd><p>Removes mentions from list of strings and returns both as separate lists</p>
+                                <dl class="field-list simple">
+                                    <dt class="field-odd">Parameters</dt>
+                                    <dd class="field-odd"><p><strong>l</strong> – list of strings</p>
+                                    </dd>
+                                    <dt class="field-even">Returns</dt>
+                                    <dd class="field-even"><p>(arguments, mentions)</p>
+                                    </dd>
+                                </dl>
+                            </dd>
+                        </dl>
+
+                    </div>
+                    <hr class="docutils"/>
+                    <div class="section" id="module-db_access">
+                        <span id="connection-with-django-backend"></span>
+                        <h2>Connection with Django Backend<a class="headerlink" href="#module-db_access"
+                                                             title="Permalink to this headline">¶</a></h2>
+                        <span class="target" id="module-db_access"></span>
+                        <p>This module is responsible for connecting the bot to the django back-end database</p>
+                        <dl class="function">
+                            <dt id="db_access.black_list_user">
+                                <code class="descclassname">db_access.</code><code
+                                    class="descname">black_list_user</code><span
+                                    class="sig-paren">(</span><em>user_id</em>, <em>reason=''</em><span
+                                    class="sig-paren">)</span><a class="headerlink" href="#db_access.black_list_user"
+                                                                 title="Permalink to this definition">¶</a></dt>
+                            <dd><p>Adds a user to Blacklist
+                                :param user_id: Discord ID
+                                :param reason:
+                                :return:</p>
+                            </dd>
+                        </dl>
+
+                        <dl class="function">
+                            <dt id="db_access.get_admins">
+                                <code class="descclassname">db_access.</code><code
+                                    class="descname">get_admins</code><span class="sig-paren">(</span><span
+                                    class="sig-paren">)</span><a class="headerlink" href="#db_access.get_admins"
+                                                                 title="Permalink to this definition">¶</a></dt>
+                            <dd>
+                                <dl class="field-list simple">
+                                    <dt class="field-odd">Returns</dt>
+                                    <dd class="field-odd"><p>admins ID list</p>
+                                    </dd>
+                                </dl>
+                            </dd>
+                        </dl>
+
+                        <dl class="function">
+                            <dt id="db_access.get_allowed_channels">
+                                <code class="descclassname">db_access.</code><code
+                                    class="descname">get_allowed_channels</code><span class="sig-paren">(</span><span
+                                    class="sig-paren">)</span><a class="headerlink"
+                                                                 href="#db_access.get_allowed_channels"
+                                                                 title="Permalink to this definition">¶</a></dt>
+                            <dd><p>Gets allowed channel form Django DB
+                                :return: list of strings containing channels discord id</p>
+                            </dd>
+                        </dl>
+
+                        <dl class="function">
+                            <dt id="db_access.get_black_list">
+                                <code class="descclassname">db_access.</code><code
+                                    class="descname">get_black_list</code><span class="sig-paren">(</span><span
+                                    class="sig-paren">)</span><a class="headerlink" href="#db_access.get_black_list"
+                                                                 title="Permalink to this definition">¶</a></dt>
+                            <dd><p>returns id of all blacklisted users
+                                :return:</p>
+                            </dd>
+                        </dl>
+
+                        <dl class="function">
+                            <dt id="db_access.get_builds">
+                                <code class="descclassname">db_access.</code><code
+                                    class="descname">get_builds</code><span class="sig-paren">(</span><em>price:
+                                int</em><span class="sig-paren">)</span> &#x2192; list<a class="headerlink"
+                                                                                         href="#db_access.get_builds"
+                                                                                         title="Permalink to this definition">¶</a>
+                            </dt>
+                            <dd><p>Finds builds close to target price (within 10%)
+                                :param price: target price
+                                :return: list of lists.models.Build objects</p>
+                            </dd>
+                        </dl>
+
+                        <dl class="function">
+                            <dt id="db_access.get_monitor">
+                                <code class="descclassname">db_access.</code><code
+                                    class="descname">get_monitor</code><span class="sig-paren">(</span><em>price:
+                                int</em>, <em>resolution: str = ''</em>, <em>refresh_rate: int = 0</em><span
+                                    class="sig-paren">)</span><a class="headerlink" href="#db_access.get_monitor"
+                                                                 title="Permalink to this definition">¶</a></dt>
+                            <dd><p>Finds monitors close to given price (within 25% max 42euros)
+                                :param price: target price
+                                :param resolution: resolution (optional)
+                                :param refresh_rate: refresh rate (optional)
+                                :return:</p>
+                            </dd>
+                        </dl>
+
+                        <dl class="function">
+                            <dt id="db_access.get_peripheral">
+                                <code class="descclassname">db_access.</code><code
+                                    class="descname">get_peripheral</code><span class="sig-paren">(</span><em>price:
+                                int</em>, <em>type</em><span class="sig-paren">)</span><a class="headerlink"
+                                                                                          href="#db_access.get_peripheral"
+                                                                                          title="Permalink to this definition">¶</a>
+                            </dt>
+                            <dd><p>Finds peripherals close to given price (within 12%)
+                                :param price: target price
+                                :param type: type of peripheral
+                                :return: list of lists.models.Peripheral objects</p>
+                            </dd>
+                        </dl>
+
+                        <dl class="function">
+                            <dt id="db_access.helper_fuzzy_match">
+                                <code class="descclassname">db_access.</code><code
+                                    class="descname">helper_fuzzy_match</code><span class="sig-paren">(</span><em>s</em><span
+                                    class="sig-paren">)</span><a class="headerlink" href="#db_access.helper_fuzzy_match"
+                                                                 title="Permalink to this definition">¶</a></dt>
+                            <dd><p>Matches string to list.models.Helper object (80% accuracy)
+                                :param s:
+                                :return: list.models.Helper object or None</p>
+                            </dd>
+                        </dl>
+
+                    </div>
+                </div>
+                <hr class="docutils"/>
+                <div class="section" id="django-back-end">
+                    <h1>Django Back-end<a class="headerlink" href="#django-back-end" title="Permalink to this headline">¶</a>
+                    </h1>
+                    <div class="section" id="lists">
+                        <h2>Lists<a class="headerlink" href="#lists" title="Permalink to this headline">¶</a></h2>
+                        <dl class="class">
+                            <dt id="lists.models.Build">
+                                <em class="property">class </em><code class="descclassname">lists.models.</code><code
+                                    class="descname">Build</code><span class="sig-paren">(</span><em>id</em>,
+                                <em>name</em>, <em>cpu</em>, <em>motherboard</em>, <em>ram</em>, <em>gpu</em>,
+                                <em>psu</em>, <em>cooler</em>, <em>price</em>, <em>description</em><span
+                                    class="sig-paren">)</span><a class="headerlink" href="#lists.models.Build"
+                                                                 title="Permalink to this definition">¶</a></dt>
+                            <dd>
+                                <dl class="exception">
+                                    <dt id="lists.models.Build.DoesNotExist">
+                                        <em class="property">exception </em><code class="descname">DoesNotExist</code><a
+                                            class="headerlink" href="#lists.models.Build.DoesNotExist"
+                                            title="Permalink to this definition">¶</a></dt>
+                                    <dd></dd>
+                                </dl>
+
+                                <dl class="exception">
+                                    <dt id="lists.models.Build.MultipleObjectsReturned">
+                                        <em class="property">exception </em><code class="descname">MultipleObjectsReturned</code><a
+                                            class="headerlink" href="#lists.models.Build.MultipleObjectsReturned"
+                                            title="Permalink to this definition">¶</a></dt>
+                                    <dd></dd>
+                                </dl>
+
+                                <dl class="method">
+                                    <dt id="lists.models.Build.get_as_embed">
+                                        <code class="descname">get_as_embed</code><span class="sig-paren">(</span><span
+                                            class="sig-paren">)</span> &#x2192; discord.embeds.Embed<a
+                                            class="headerlink" href="#lists.models.Build.get_as_embed"
+                                            title="Permalink to this definition">¶</a></dt>
+                                    <dd><p>Generates a Discord embed object</p>
+                                        <dl class="field-list simple">
+                                            <dt class="field-odd">Returns</dt>
+                                            <dd class="field-odd"><p>discord.Embed</p>
+                                            </dd>
+                                        </dl>
+                                    </dd>
+                                </dl>
+
+                                <dl class="method">
+                                    <dt id="lists.models.Build.save">
+                                        <code class="descname">save</code><span class="sig-paren">(</span><em>*args</em>,
+                                        <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink"
+                                                                                            href="#lists.models.Build.save"
+                                                                                            title="Permalink to this definition">¶</a>
+                                    </dt>
+                                    <dd><p>Save the current instance. Override this in a subclass if you want to
+                                        control the saving process.</p>
+                                        <p>The ‘force_insert’ and ‘force_update’ parameters can be used to insist
+                                            that the “save” must be an SQL insert or update (or equivalent for
+                                            non-SQL backends), respectively. Normally, they should not be set.</p>
+                                    </dd>
+                                </dl>
+
+                                <dl class="method">
+                                    <dt id="lists.models.Build.update_price">
+                                        <code class="descname">update_price</code><span class="sig-paren">(</span><em>force=False</em><span
+                                            class="sig-paren">)</span><a class="headerlink"
+                                                                         href="#lists.models.Build.update_price"
+                                                                         title="Permalink to this definition">¶</a></dt>
+                                    <dd><p>Updates object price</p>
+                                        <dl class="field-list simple">
+                                            <dt class="field-odd">Parameters</dt>
+                                            <dd class="field-odd"><p><strong>force</strong> – forces update all objects
+                                                (depreciated)y</p>
+                                            </dd>
+                                            <dt class="field-even">Returns</dt>
+                                            <dd class="field-even"><p></p>
+                                            </dd>
+                                        </dl>
+                                    </dd>
+                                </dl>
+
+                            </dd>
+                        </dl>
+
+                        <dl class="class">
+                            <dt id="lists.models.Monitor">
+                                <em class="property">class </em><code class="descclassname">lists.models.</code><code
+                                    class="descname">Monitor</code><span class="sig-paren">(</span><em>id</em>, <em>price</em>,
+                                <em>name</em>, <em>url</em>, <em>resolution</em>, <em>panel</em>,
+                                <em>refresh_rate</em><span class="sig-paren">)</span><a class="headerlink"
+                                                                                        href="#lists.models.Monitor"
+                                                                                        title="Permalink to this definition">¶</a>
+                            </dt>
+                            <dd>
+                                <dl class="exception">
+                                    <dt id="lists.models.Monitor.DoesNotExist">
+                                        <em class="property">exception </em><code class="descname">DoesNotExist</code><a
+                                            class="headerlink" href="#lists.models.Monitor.DoesNotExist"
+                                            title="Permalink to this definition">¶</a></dt>
+                                    <dd></dd>
+                                </dl>
+
+                                <dl class="exception">
+                                    <dt id="lists.models.Monitor.MultipleObjectsReturned">
+                                        <em class="property">exception </em><code class="descname">MultipleObjectsReturned</code><a
+                                            class="headerlink" href="#lists.models.Monitor.MultipleObjectsReturned"
+                                            title="Permalink to this definition">¶</a></dt>
+                                    <dd></dd>
+                                </dl>
+
+                            </dd>
+                        </dl>
+
+                        <dl class="class">
+                            <dt id="lists.models.Helper">
+                                <em class="property">class </em><code class="descclassname">lists.models.</code><code
+                                    class="descname">Helper</code><span class="sig-paren">(</span><em>id</em>,
+                                <em>name</em>, <em>content</em><span class="sig-paren">)</span><a class="headerlink"
+                                                                                                  href="#lists.models.Helper"
+                                                                                                  title="Permalink to this definition">¶</a>
+                            </dt>
+                            <dd>
+                                <dl class="exception">
+                                    <dt id="lists.models.Helper.DoesNotExist">
+                                        <em class="property">exception </em><code class="descname">DoesNotExist</code><a
+                                            class="headerlink" href="#lists.models.Helper.DoesNotExist"
+                                            title="Permalink to this definition">¶</a></dt>
+                                    <dd></dd>
+                                </dl>
+
+                                <dl class="exception">
+                                    <dt id="lists.models.Helper.MultipleObjectsReturned">
+                                        <em class="property">exception </em><code class="descname">MultipleObjectsReturned</code><a
+                                            class="headerlink" href="#lists.models.Helper.MultipleObjectsReturned"
+                                            title="Permalink to this definition">¶</a></dt>
+                                    <dd></dd>
+                                </dl>
+
+                            </dd>
+                        </dl>
+
+                        <dl class="class">
+                            <dt id="lists.models.Peripheral">
+                                <em class="property">class </em><code class="descclassname">lists.models.</code><code
+                                    class="descname">Peripheral</code><span class="sig-paren">(</span><em>id</em>, <em>price</em>,
+                                <em>name</em>, <em>url</em>, <em>type</em><span class="sig-paren">)</span><a
+                                    class="headerlink" href="#lists.models.Peripheral"
+                                    title="Permalink to this definition">¶</a></dt>
+                            <dd>
+                                <dl class="exception">
+                                    <dt id="lists.models.Peripheral.DoesNotExist">
+                                        <em class="property">exception </em><code class="descname">DoesNotExist</code><a
+                                            class="headerlink" href="#lists.models.Peripheral.DoesNotExist"
+                                            title="Permalink to this definition">¶</a></dt>
+                                    <dd></dd>
+                                </dl>
+
+                                <dl class="exception">
+                                    <dt id="lists.models.Peripheral.MultipleObjectsReturned">
+                                        <em class="property">exception </em><code class="descname">MultipleObjectsReturned</code><a
+                                            class="headerlink" href="#lists.models.Peripheral.MultipleObjectsReturned"
+                                            title="Permalink to this definition">¶</a></dt>
+                                    <dd></dd>
+                                </dl>
+
+                            </dd>
+                        </dl>
+
+                    </div>
+                    <div class="section" id="discord-admin">
+                        <h2>Discord Admin<a class="headerlink" href="#discord-admin" title="Permalink to this headline">¶</a>
+                        </h2>
+                        <dl class="class">
+                            <dt id="discord_admin.models.Admin">
+                                <em class="property">class </em><code class="descclassname">discord_admin.models.</code><code
+                                    class="descname">Admin</code><span class="sig-paren">(</span><em>id</em>, <em>discord_id</em>,
+                                <em>name</em><span class="sig-paren">)</span><a class="headerlink"
+                                                                                href="#discord_admin.models.Admin"
+                                                                                title="Permalink to this definition">¶</a>
+                            </dt>
+                            <dd>
+                                <dl class="exception">
+                                    <dt id="discord_admin.models.Admin.DoesNotExist">
+                                        <em class="property">exception </em><code class="descname">DoesNotExist</code><a
+                                            class="headerlink" href="#discord_admin.models.Admin.DoesNotExist"
+                                            title="Permalink to this definition">¶</a></dt>
+                                    <dd></dd>
+                                </dl>
+
+                                <dl class="exception">
+                                    <dt id="discord_admin.models.Admin.MultipleObjectsReturned">
+                                        <em class="property">exception </em><code class="descname">MultipleObjectsReturned</code><a
+                                            class="headerlink"
+                                            href="#discord_admin.models.Admin.MultipleObjectsReturned"
+                                            title="Permalink to this definition">¶</a></dt>
+                                    <dd></dd>
+                                </dl>
+
+                            </dd>
+                        </dl>
+
+                        <dl class="class">
+                            <dt id="discord_admin.models.BlackUser">
+                                <em class="property">class </em><code class="descclassname">discord_admin.models.</code><code
+                                    class="descname">BlackUser</code><span class="sig-paren">(</span><em>id</em>, <em>discord_id</em>,
+                                <em>reason</em><span class="sig-paren">)</span><a class="headerlink"
+                                                                                  href="#discord_admin.models.BlackUser"
+                                                                                  title="Permalink to this definition">¶</a>
+                            </dt>
+                            <dd>
+                                <dl class="exception">
+                                    <dt id="discord_admin.models.BlackUser.DoesNotExist">
+                                        <em class="property">exception </em><code class="descname">DoesNotExist</code><a
+                                            class="headerlink" href="#discord_admin.models.BlackUser.DoesNotExist"
+                                            title="Permalink to this definition">¶</a></dt>
+                                    <dd></dd>
+                                </dl>
+
+                                <dl class="exception">
+                                    <dt id="discord_admin.models.BlackUser.MultipleObjectsReturned">
+                                        <em class="property">exception </em><code class="descname">MultipleObjectsReturned</code><a
+                                            class="headerlink"
+                                            href="#discord_admin.models.BlackUser.MultipleObjectsReturned"
+                                            title="Permalink to this definition">¶</a></dt>
+                                    <dd></dd>
+                                </dl>
+
+                            </dd>
+                        </dl>
+
+                        <dl class="class">
+                            <dt id="discord_admin.models.AllowedChannel">
+                                <em class="property">class </em><code class="descclassname">discord_admin.models.</code><code
+                                    class="descname">AllowedChannel</code><span class="sig-paren">(</span><em>id</em>,
+                                <em>discord_id</em>, <em>description</em><span class="sig-paren">)</span><a
+                                    class="headerlink" href="#discord_admin.models.AllowedChannel"
+                                    title="Permalink to this definition">¶</a></dt>
+                            <dd>
+                                <dl class="exception">
+                                    <dt id="discord_admin.models.AllowedChannel.DoesNotExist">
+                                        <em class="property">exception </em><code class="descname">DoesNotExist</code><a
+                                            class="headerlink" href="#discord_admin.models.AllowedChannel.DoesNotExist"
+                                            title="Permalink to this definition">¶</a></dt>
+                                    <dd></dd>
+                                </dl>
+
+                                <dl class="exception">
+                                    <dt id="discord_admin.models.AllowedChannel.MultipleObjectsReturned">
+                                        <em class="property">exception </em><code class="descname">MultipleObjectsReturned</code><a
+                                            class="headerlink"
+                                            href="#discord_admin.models.AllowedChannel.MultipleObjectsReturned"
+                                            title="Permalink to this definition">¶</a></dt>
+                                    <dd></dd>
+                                </dl>
+
+                            </dd>
+                        </dl>
+
+                    </div>
+                    <div class="section" id="parts">
+                        <h2>Parts<a class="headerlink" href="#parts" title="Permalink to this headline">¶</a></h2>
+                        <dl class="class">
+                            <dt id="parts.models.AbstractPart">
+                                <em class="property">class </em><code class="descclassname">parts.models.</code><code
+                                    class="descname">AbstractPart</code><span class="sig-paren">(</span><em>*args</em>,
+                                <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink"
+                                                                                    href="#parts.models.AbstractPart"
+                                                                                    title="Permalink to this definition">¶</a>
+                            </dt>
+                            <dd>
+                                <dl class="method">
+                                    <dt id="parts.models.AbstractPart.clean">
+                                        <code class="descname">clean</code><span class="sig-paren">(</span><span
+                                            class="sig-paren">)</span><a class="headerlink"
+                                                                         href="#parts.models.AbstractPart.clean"
+                                                                         title="Permalink to this definition">¶</a></dt>
+                                    <dd><p>Hook for doing any extra model-wide validation after clean() has been
+                                        called on every field by self.clean_fields. Any ValidationError raised
+                                        by this method will not be associated with a particular field; it will
+                                        have a special-case association with the field defined by NON_FIELD_ERRORS.</p>
+                                    </dd>
+                                </dl>
+
+                                <dl class="method">
+                                    <dt id="parts.models.AbstractPart.save">
+                                        <code class="descname">save</code><span class="sig-paren">(</span><em>*args</em>,
+                                        <em>**kwargs</em><span class="sig-paren">)</span><a class="headerlink"
+                                                                                            href="#parts.models.AbstractPart.save"
+                                                                                            title="Permalink to this definition">¶</a>
+                                    </dt>
+                                    <dd><p>Save the current instance. Override this in a subclass if you want to
+                                        control the saving process.</p>
+                                        <p>The ‘force_insert’ and ‘force_update’ parameters can be used to insist
+                                            that the “save” must be an SQL insert or update (or equivalent for
+                                            non-SQL backends), respectively. Normally, they should not be set.</p>
+                                    </dd>
+                                </dl>
+
+                            </dd>
+                        </dl>
+
+                        <dl class="class">
+                            <dt id="parts.models.CPU">
+                                <em class="property">class </em><code class="descclassname">parts.models.</code><code
+                                    class="descname">CPU</code><span class="sig-paren">(</span><em>id</em>, <em>url</em>,
+                                <em>name</em>, <em>price</em>, <em>last_modified</em><span class="sig-paren">)</span><a
+                                    class="headerlink" href="#parts.models.CPU"
+                                    title="Permalink to this definition">¶</a></dt>
+                            <dd>
+                                <dl class="exception">
+                                    <dt id="parts.models.CPU.DoesNotExist">
+                                        <em class="property">exception </em><code class="descname">DoesNotExist</code><a
+                                            class="headerlink" href="#parts.models.CPU.DoesNotExist"
+                                            title="Permalink to this definition">¶</a></dt>
+                                    <dd></dd>
+                                </dl>
+
+                                <dl class="exception">
+                                    <dt id="parts.models.CPU.MultipleObjectsReturned">
+                                        <em class="property">exception </em><code class="descname">MultipleObjectsReturned</code><a
+                                            class="headerlink" href="#parts.models.CPU.MultipleObjectsReturned"
+                                            title="Permalink to this definition">¶</a></dt>
+                                    <dd></dd>
+                                </dl>
+
+                            </dd>
+                        </dl>
+
+                        <dl class="class">
+                            <dt id="parts.models.Motherboard">
+                                <em class="property">class </em><code class="descclassname">parts.models.</code><code
+                                    class="descname">Motherboard</code><span class="sig-paren">(</span><em>id</em>, <em>url</em>,
+                                <em>name</em>, <em>price</em>, <em>last_modified</em><span class="sig-paren">)</span><a
+                                    class="headerlink" href="#parts.models.Motherboard"
+                                    title="Permalink to this definition">¶</a></dt>
+                            <dd>
+                                <dl class="exception">
+                                    <dt id="parts.models.Motherboard.DoesNotExist">
+                                        <em class="property">exception </em><code class="descname">DoesNotExist</code><a
+                                            class="headerlink" href="#parts.models.Motherboard.DoesNotExist"
+                                            title="Permalink to this definition">¶</a></dt>
+                                    <dd></dd>
+                                </dl>
+
+                                <dl class="exception">
+                                    <dt id="parts.models.Motherboard.MultipleObjectsReturned">
+                                        <em class="property">exception </em><code class="descname">MultipleObjectsReturned</code><a
+                                            class="headerlink" href="#parts.models.Motherboard.MultipleObjectsReturned"
+                                            title="Permalink to this definition">¶</a></dt>
+                                    <dd></dd>
+                                </dl>
+
+                            </dd>
+                        </dl>
+
+                        <dl class="class">
+                            <dt id="parts.models.RAM">
+                                <em class="property">class </em><code class="descclassname">parts.models.</code><code
+                                    class="descname">RAM</code><span class="sig-paren">(</span><em>id</em>, <em>url</em>,
+                                <em>name</em>, <em>price</em>, <em>last_modified</em><span class="sig-paren">)</span><a
+                                    class="headerlink" href="#parts.models.RAM"
+                                    title="Permalink to this definition">¶</a></dt>
+                            <dd>
+                                <dl class="exception">
+                                    <dt id="parts.models.RAM.DoesNotExist">
+                                        <em class="property">exception </em><code class="descname">DoesNotExist</code><a
+                                            class="headerlink" href="#parts.models.RAM.DoesNotExist"
+                                            title="Permalink to this definition">¶</a></dt>
+                                    <dd></dd>
+                                </dl>
+
+                                <dl class="exception">
+                                    <dt id="parts.models.RAM.MultipleObjectsReturned">
+                                        <em class="property">exception </em><code class="descname">MultipleObjectsReturned</code><a
+                                            class="headerlink" href="#parts.models.RAM.MultipleObjectsReturned"
+                                            title="Permalink to this definition">¶</a></dt>
+                                    <dd></dd>
+                                </dl>
+
+                            </dd>
+                        </dl>
+
+                        <dl class="class">
+                            <dt id="parts.models.GPU">
+                                <em class="property">class </em><code class="descclassname">parts.models.</code><code
+                                    class="descname">GPU</code><span class="sig-paren">(</span><em>id</em>, <em>url</em>,
+                                <em>name</em>, <em>price</em>, <em>last_modified</em><span class="sig-paren">)</span><a
+                                    class="headerlink" href="#parts.models.GPU"
+                                    title="Permalink to this definition">¶</a></dt>
+                            <dd>
+                                <dl class="exception">
+                                    <dt id="parts.models.GPU.DoesNotExist">
+                                        <em class="property">exception </em><code class="descname">DoesNotExist</code><a
+                                            class="headerlink" href="#parts.models.GPU.DoesNotExist"
+                                            title="Permalink to this definition">¶</a></dt>
+                                    <dd></dd>
+                                </dl>
+
+                                <dl class="exception">
+                                    <dt id="parts.models.GPU.MultipleObjectsReturned">
+                                        <em class="property">exception </em><code class="descname">MultipleObjectsReturned</code><a
+                                            class="headerlink" href="#parts.models.GPU.MultipleObjectsReturned"
+                                            title="Permalink to this definition">¶</a></dt>
+                                    <dd></dd>
+                                </dl>
+
+                            </dd>
+                        </dl>
+
+                        <dl class="class">
+                            <dt id="parts.models.PSU">
+                                <em class="property">class </em><code class="descclassname">parts.models.</code><code
+                                    class="descname">PSU</code><span class="sig-paren">(</span><em>id</em>, <em>url</em>,
+                                <em>name</em>, <em>price</em>, <em>last_modified</em><span class="sig-paren">)</span><a
+                                    class="headerlink" href="#parts.models.PSU"
+                                    title="Permalink to this definition">¶</a></dt>
+                            <dd>
+                                <dl class="exception">
+                                    <dt id="parts.models.PSU.DoesNotExist">
+                                        <em class="property">exception </em><code class="descname">DoesNotExist</code><a
+                                            class="headerlink" href="#parts.models.PSU.DoesNotExist"
+                                            title="Permalink to this definition">¶</a></dt>
+                                    <dd></dd>
+                                </dl>
+
+                                <dl class="exception">
+                                    <dt id="parts.models.PSU.MultipleObjectsReturned">
+                                        <em class="property">exception </em><code class="descname">MultipleObjectsReturned</code><a
+                                            class="headerlink" href="#parts.models.PSU.MultipleObjectsReturned"
+                                            title="Permalink to this definition">¶</a></dt>
+                                    <dd></dd>
+                                </dl>
+
+                            </dd>
+                        </dl>
+
+                        <dl class="class">
+                            <dt id="parts.models.Case">
+                                <em class="property">class </em><code class="descclassname">parts.models.</code><code
+                                    class="descname">Case</code><span class="sig-paren">(</span><em>id</em>,
+                                <em>url</em>, <em>name</em>, <em>price</em>, <em>last_modified</em><span
+                                    class="sig-paren">)</span><a class="headerlink" href="#parts.models.Case"
+                                                                 title="Permalink to this definition">¶</a></dt>
+                            <dd>
+                                <dl class="exception">
+                                    <dt id="parts.models.Case.DoesNotExist">
+                                        <em class="property">exception </em><code class="descname">DoesNotExist</code><a
+                                            class="headerlink" href="#parts.models.Case.DoesNotExist"
+                                            title="Permalink to this definition">¶</a></dt>
+                                    <dd></dd>
+                                </dl>
+
+                                <dl class="exception">
+                                    <dt id="parts.models.Case.MultipleObjectsReturned">
+                                        <em class="property">exception </em><code class="descname">MultipleObjectsReturned</code><a
+                                            class="headerlink" href="#parts.models.Case.MultipleObjectsReturned"
+                                            title="Permalink to this definition">¶</a></dt>
+                                    <dd></dd>
+                                </dl>
+
+                            </dd>
+                        </dl>
+
+                        <dl class="class">
+                            <dt id="parts.models.Part">
+                                <em class="property">class </em><code class="descclassname">parts.models.</code><code
+                                    class="descname">Part</code><span class="sig-paren">(</span><em>id</em>,
+                                <em>url</em>, <em>name</em>, <em>price</em>, <em>last_modified</em>,
+                                <em>description</em><span class="sig-paren">)</span><a class="headerlink"
+                                                                                       href="#parts.models.Part"
+                                                                                       title="Permalink to this definition">¶</a>
+                            </dt>
+                            <dd>
+                                <dl class="exception">
+                                    <dt id="parts.models.Part.DoesNotExist">
+                                        <em class="property">exception </em><code class="descname">DoesNotExist</code><a
+                                            class="headerlink" href="#parts.models.Part.DoesNotExist"
+                                            title="Permalink to this definition">¶</a></dt>
+                                    <dd></dd>
+                                </dl>
+
+                                <dl class="exception">
+                                    <dt id="parts.models.Part.MultipleObjectsReturned">
+                                        <em class="property">exception </em><code class="descname">MultipleObjectsReturned</code><a
+                                            class="headerlink" href="#parts.models.Part.MultipleObjectsReturned"
+                                            title="Permalink to this definition">¶</a></dt>
+                                    <dd></dd>
+                                </dl>
+
+                            </dd>
+                        </dl>
+
+                    </div>
+                </div>
+
+
+            </div>
+
+        </div>
+    </div>
+    <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <h1 class="logo"><a href="#">Hal 9000</a></h1>
+
+
+            <h3>Navigation</h3>
+
+            <div class="relations">
+                <h3>Related Topics</h3>
+                <ul>
+                    <li><a href="#">Documentation overview</a>
+                        <ul>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+            <div id="searchbox" style="display: none" role="search">
+                <h3>Quick search</h3>
+                <div class="searchformwrapper">
+                    <form class="search" action="search.html" method="get">
+                        <input type="text" name="q"/>
+                        <input type="submit" value="Go"/>
+                    </form>
+                </div>
+            </div>
+            <script type="text/javascript">$('#searchbox').show(0);</script>
+
+
+        </div>
+    </div>
+    <div class="clearer"></div>
+</div>
+<div class="footer">
+    &copy;2019, Stavros Avramidis.
+
+    |
+    Powered by <a href="http://sphinx-doc.org/">Sphinx 2.0.1</a>
+    &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+
+    |
+    <a href="_sources/index.rst.txt"
+       rel="nofollow">Page source</a>
+</div>
+
+
+</body>
+</html>

@@ -98,10 +98,12 @@ def black_list_user(user_id, reason=""):
         pass
 
 
-######################################
-######################################
-######################################
-######################################
+def get_allowed_channels():
+    """
+    Gets allowed channel form Django DB
+    :return: list of strings containing channels discord id
+    """
+    return [c.discord_id for c in discord_admin.models.AllowedChannel.objects.all()]
 
 
 if __name__ == "__main__":

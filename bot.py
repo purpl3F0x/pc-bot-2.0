@@ -20,12 +20,14 @@ import skroutz_scrapper as skrtz
 from common import generate_embed
 
 # Server channels whitelist
-whitelist = [
-    "466149664383565827",  # test server main
-    "418758155078598666",  # gramers-sklhra
-    "468208302875213825",  # meh
-    "467344493449052170",  # test server  beta
-]
+whitelist = db_access.get_allowed_channels()
+# [
+#     "466149664383565827",  # test server main
+#     "418758155078598666",  # gramers-sklhra
+#     "468208302875213825",  # meh
+#     "467344493449052170",  # test server  beta
+# ]
+
 
 # initialise bot
 bot = Bot(command_prefix='$')

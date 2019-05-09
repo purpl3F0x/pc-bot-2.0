@@ -1,3 +1,12 @@
+"""
+.. module:: skroutz_scrapper
+
+Library for web-scrapping and parsing skroutz.com
+
+.. moduleauthor:: Stavros Avramidis
+
+"""
+
 import logging
 
 import regex as re
@@ -12,6 +21,7 @@ search_url = "https://www.skroutz.gr/search?keyphrase="
 def price_to_float(s: str) -> float:
     """
     Converts a string with format 'n.nnn,nn €' to float
+
     :param s: the price
     :return: return price in float
     """
@@ -23,6 +33,7 @@ def price_to_float(s: str) -> float:
 def deep_dive(url: str, args: dict = {}) -> str:
     """
     Returns actual url, of search - tries to navigate to tech. category if multiple results
+
     :param url:  url
     :param args: optional url parameters (must be formatted)
     :return: returns the actual url
@@ -53,6 +64,7 @@ def deep_dive(url: str, args: dict = {}) -> str:
 def get_product_page(url: str, max_num_of_res: int = 5, args: dict = {}) -> (list, str):
     """
     Finds product prices from  product url, search query, or search result
+
     :param url: the actual url (product, search, or search result)
     :param max_num_of_res: =5max number of results (when available)
     :param args: optional url parameters

@@ -1,9 +1,12 @@
-# # # # # # # # # # # # # # # # # # #
-#                                   #
-# @filename:    bot.py              #
-# @author:      Stavros Avramidis   #
-#                                   #
-# # # # # # # # # # # # # # # # # # #
+"""
+.. module:: bot
+
+Discord bot
+Starts the discord bot, and add listeners to commends
+
+.. moduleauthor:: Stavros Avramidis
+
+"""
 
 import logging
 import os
@@ -38,6 +41,7 @@ token = os.environ['TOKEN']
 async def pc(context, price: int, *args):
     """
     Messages a build close to the given price
+
     :param context: msg context
     :param price: build target price
     :param args: optional arguments
@@ -54,6 +58,7 @@ async def pc(context, price: int, *args):
 async def info():
     """
     Prints bot info
+
     :return:
     """
 
@@ -85,6 +90,7 @@ async def info():
 async def blacklist(context, member: discord.Member, reason=""):
     """
     Adds a user to the blacklist
+
     :param context: msg context
     :param member: member mention
     :param reason: reason for banning (optional)
@@ -105,6 +111,7 @@ async def blacklist(context, member: discord.Member, reason=""):
 async def hal(context, *args):
     """
     The master command of trolls
+
     :param context: msg context
     :param args: list of command args
     :return:
@@ -122,6 +129,7 @@ async def hal(context, *args):
 async def helpme(context, *, arg):
     """
     Messages a helper, uses fuzzy match
+
     :param context: msg context
     :param arg: helper descriptions
     :return:
@@ -136,6 +144,7 @@ async def helpme(context, *, arg):
 async def skroutz(context, *args):
     """
     Searches skroutz for a product
+
     :param context: msg context
     :param args: product to search and optional arguments
     :return:
@@ -149,7 +158,14 @@ async def skroutz(context, *args):
         (q_args, cmd_args)[x.startswith('--')].append(x)
         if x.startswith('--help'):
             await bot.say(
-                "```php\nskroutz HALP\n\n<optional args>\n'--pop':         sort by popularity (default)\n'--price':       sort by price\n'--asc':         sort by ascending order( raises --price by default)\n'--desc':        sort by descending order( raises --price by default)\n'--max-{int}':   maximum price\n'--min-{int}':   minimun price\n'--help':        shows this dah :|\n\nex: '$skroutz 2080 --asc --min-750'\n```")
+                "```php\nskroutz HALP\n\n<optional args>\n"
+                "'--pop':         sort by popularity (default)\n"
+                "'--price':       sort by price\n"
+                "'--asc':         sort by ascending order( raises --price by default)\n"
+                "'--desc':        sort by descending order( raises --price by default)\n"
+                "'--max-{int}':   maximum price\n'--min-{int}':   minimun price\n"
+                "'--help':        shows this dah :|\n\n"
+                "f.ex: '$skroutz 2080 --asc --min-750'\n```")
             return
 
     d = {}
@@ -196,6 +212,7 @@ async def skroutz(context, *args):
 async def per(context, tp, price: int, *args):
     """
     Messages a peripheral
+
     :param context:
     :param tp: type of peripheral
     :param price: target price
@@ -233,6 +250,7 @@ async def per(context, tp, price: int, *args):
 @bot.command(pass_context=True)
 async def monitor(context, price: int, resolution: str = '', refresh_rate: int = 0, *args):
     """
+    Messages a monitor
 
     :param context:
     :param price:
@@ -275,7 +293,8 @@ async def monitor(context, price: int, resolution: str = '', refresh_rate: int =
 async def on_message(message):
     """
     Filters message before triggering commands
-    :param message:
+
+    :param message: received message from discord
     :return:
     """
     if message.channel.is_private and message.author.id != bot.user.id and message.channel.id != "468208302875213825":
@@ -305,6 +324,7 @@ async def on_message(message):
 async def on_ready():
     """
     Listener function doing things when bot is connected
+
     :return:
     """
     print('Logged in as')
@@ -339,7 +359,3 @@ if __name__ == "__main__":
         token,
         bot=False
     )
-
-###############################################
-############## That's all folks  ##############
-###############################################

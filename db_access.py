@@ -1,5 +1,11 @@
-# Stavros Avramidis
-# db_access.py
+"""
+.. module:: db_access
+
+This module is responsible for connecting the bot to the django back-end database
+
+.. moduleauthor:: Stavros Avramidis
+
+"""
 
 import os
 

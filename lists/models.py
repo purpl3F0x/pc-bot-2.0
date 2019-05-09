@@ -22,6 +22,7 @@ class Build(models.Model):
     def update_price(self, force=False):
         """
         Updates object price
+
         :param force: forces update all objects (depreciated)y
         :return:
         """
@@ -51,6 +52,7 @@ class Build(models.Model):
     def get_as_embed(self) -> common.Embed:
         """
         Generates a Discord embed object
+
         :return: discord.Embed
         """
         embed = common.generate_embed(

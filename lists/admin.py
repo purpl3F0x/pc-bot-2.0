@@ -15,7 +15,8 @@ def update_build_price(modeladmin, request, queryset):
 class BuildAdmin(MarkdownxModelAdmin):
     readonly_fields = ('price',)
     actions = [update_build_price]
-    list_display = ('__str__', 'price', 'cpu', 'ram', 'gpu',)
+    list_display = ('__str__', 'price', 'cpu', 'motherboard', 'ram', 'gpu', 'psu', 'cooler')
+    ordering = ('price',)
 
     def save_related(self, request, form, formset, change):
         if not change:  # Adding a new object

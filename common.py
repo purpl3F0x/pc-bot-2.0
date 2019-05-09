@@ -1,3 +1,12 @@
+"""
+.. module:: common
+
+This module contains various functions used across the project.
+
+.. moduleauthor:: Stavros Avramidis
+
+"""
+
 import re
 from random import choice
 
@@ -38,6 +47,7 @@ facts = [
 def generate_embed(title: str = "", description: str = 'rand_quote', add_images: bool = True):
     """
     Generator for prototype discord embed message
+
     :param title: Embed title
     :param description: Embed discription
     :param add_images: option to include thumbnail image
@@ -56,10 +66,11 @@ def generate_embed(title: str = "", description: str = 'rand_quote', add_images:
     return embed
 
 
-def is_mention(s):
+def is_mention(s: str):
     """
     Checks if a string is a user mention
-    :param s:
+
+    :param s: String to check
     :return: returns the userID in case of mention else 0
     """
     if re.match(r"<@!?\d{18}>", s):
@@ -70,6 +81,7 @@ def is_mention(s):
 def split_mentions(l: list or tuple) -> (list, list):
     """
     Removes mentions from list of strings and returns both as separate lists
+
     :param l: list of strings
     :return: (arguments, mentions)
     """

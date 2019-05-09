@@ -7,11 +7,7 @@ class PartAdmin(admin.ModelAdmin):
     readonly_fields = ('last_modified', 'price', 'name',)
     ordering = ('name',)
 
-    list_display = (
-        '__str__',
-        'price',
-        'last_modified',
-    )
+    list_display = ('__str__', 'price', 'last_modified',)
 
 
 # Register your models here.

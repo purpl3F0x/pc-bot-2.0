@@ -36,6 +36,13 @@ facts = [
 
 
 def generate_embed(title: str = "", description: str = 'rand_quote', add_images: bool = True):
+    """
+    Generator for prototype discord embed message
+    :param title: Embed title
+    :param description: Embed discription
+    :param add_images: option to include thumbnail image
+    :return: discord.Embed obj
+    """
     if description is 'rand_quote':
         description = choice(captions)
 

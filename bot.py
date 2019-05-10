@@ -69,7 +69,8 @@ async def info():
         Thank ***wiz*** for giving me food :apple:
         Thank ***Mand Break*** for cleaning my :poop:
         
-        **__Version 4.0-beta__**
+        **__Version 4.0.1__** - *I hate everything about you, why do I still love you!*
+        
         https://github.com/purpl3F0x/pc-bot-2.0
         
         *Peel me from the skin, tear me from the rind

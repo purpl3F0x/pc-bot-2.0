@@ -18,6 +18,8 @@ class BuildAdmin(MarkdownxModelAdmin):
     list_display = ('__str__', 'price', 'cpu', 'motherboard', 'ram', 'gpu', 'psu', 'cooler')
     ordering = ('price',)
 
+    filter_horizontal = ('case', 'others')
+
     def save_related(self, request, form, formset, change):
         if not change:  # Adding a new object
             form.save()  # Must be done before M2M save

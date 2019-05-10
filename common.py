@@ -90,3 +90,16 @@ def split_mentions(l: list or tuple) -> (list, list):
         (mentions if is_mention(_) else arguments).append(_)
 
     return arguments, mentions
+
+
+async def react_sad(bot, msg):
+    """
+    Adds sad reaction to given message
+
+    :param bot: The bot to add reaction
+    :param msg: the message to add reaction
+    :return:
+    """
+    await bot.add_reaction(msg, '\U0001F1F8')
+    await bot.add_reaction(msg, '\U0001F1E6')
+    await bot.add_reaction(msg, '\U0001F1E9')

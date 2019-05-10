@@ -25,7 +25,6 @@ from common import generate_embed
 # Server channels whitelist
 whitelist = db_access.get_allowed_channels()
 
-
 # initialise bot
 bot = Bot(command_prefix='$')
 
@@ -50,8 +49,12 @@ async def pc(context, price: int, *args):
     text, mentions = common.split_mentions(args)
     answer = db_access.get_builds(price)
 
+    if not answer:
+        await common.react_sad(bot, context.message)
+
     for i in answer:
         await bot.say(embed=i.get_as_embed())
+
 
 
 @bot.command(pass_context=False)
@@ -185,7 +188,7 @@ async def skroutz(context, *args):
                 continue
 
     if not q_args:
-        await bot.add_reaction(context.message, '\U0001F622')
+        await common.react_sad(bot, context.message)
         return
     query = "+".join(q_args)
     url = skrtz.search_url + query
@@ -231,7 +234,7 @@ async def per(context, tp, price: int, *args):
         res = db_access.get_peripheral(price, '3')
 
     if not res:
-        await bot.add_reaction(context.message, '\U0001F623')
+        await common.react_sad(bot, context.message)
         return
 
     e = generate_embed(add_images=False)
@@ -263,7 +266,7 @@ async def monitor(context, price: int, resolution: str = '', refresh_rate: int =
     res = db_access.get_monitor(price, resolution, refresh_rate)
 
     if not res:
-        await bot.add_reaction(context.message, '\U0001F623')
+        await common.react_sad(bot, context.message)
         return
 
     e = generate_embed(
@@ -301,6 +304,7 @@ async def on_message(message):
         quote = quotes.quote().replace("%user", ("<@" + message.author.id + ">"))
         await __import__('asyncio').sleep(2)
         await bot.send_message(message.channel, quote)
+
     else:
         # Check if message in whitelisted channel
         if message.channel.id not in whitelist:

@@ -15,7 +15,6 @@ import os
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/2.1/howto/deployment/checklist/
 
@@ -26,7 +25,6 @@ SECRET_KEY = '#w*hvoc@+jpb)^%$s&#db8kh8-97jr=%!lp4v8mm)rbt%_u193'
 DEBUG = True
 
 ALLOWED_HOSTS = ['*']
-
 
 # Application definition
 
@@ -59,10 +57,10 @@ ROOT_URLCONF = 'pc_bot.urls'
 
 TEMPLATES = [
     {
-        'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join(BASE_DIR,'templates/')],
+        'BACKEND' : 'django.template.backends.django.DjangoTemplates',
+        'DIRS'    : [os.path.join(BASE_DIR, 'templates/')],
         'APP_DIRS': True,
-        'OPTIONS': {
+        'OPTIONS' : {
             'context_processors': [
                 'django.template.context_processors.debug',
                 'django.template.context_processors.request',
@@ -75,14 +73,13 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'pc_bot.wsgi.application'
 
-
 # Database
 # https://docs.djangoproject.com/en/2.1/ref/settings/#databases
 
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'NAME'  : os.path.join(BASE_DIR, 'db.sqlite3'),
     }
 }
 
@@ -105,7 +102,6 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
 # Internationalization
 # https://docs.djangoproject.com/en/2.1/topics/i18n/
 
@@ -118,7 +114,6 @@ USE_I18N = True
 USE_L10N = True
 
 USE_TZ = False
-
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.1/howto/static-files/

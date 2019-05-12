@@ -360,8 +360,8 @@ async def on_ready():
     await bot.change_presence(
         activity=discord.Streaming(
             name="I'm Sorry Dave! ;(",
-            url='',
-            details='Booooo'
+            url='https://www.twitch.tv/bobross',
+            details='Taking over Humanity'
         )
     )
 

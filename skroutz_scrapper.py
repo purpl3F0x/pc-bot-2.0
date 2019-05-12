@@ -7,8 +7,6 @@ Library for web-scrapping and parsing skroutz.com
 
 """
 
-import logging
-
 import regex as re
 import requests
 from bs4 import BeautifulSoup
@@ -72,22 +70,20 @@ def get_product_page(url: str, max_num_of_res: int = 5, args: dict = {}) -> (lis
     """
 
     try:
-        actualURL = deep_dive(url, args)
-        print(actualURL)
+        actual_url = deep_dive(url, args)
+        print(actual_url)
         try:
-            soup = BeautifulSoup(requests.get(actualURL).text, 'html.parser')
-        except:
+            soup = BeautifulSoup(requests.get(actual_url).text, 'html.parser')
+        except ...:
             return [], "error getting deep-dive "
     except TypeError:
         return [], "Couldn't extract actual URL"
-    except:
+    except ...:
         return [], "Unkown Error when getting URL"
 
-    logging.info('Getting info about >\t', actualURL)
-
-    a = actualURL.find('skroutz.gr/c/')
+    a = actual_url.find('skroutz.gr/c/')
     if a >= 0:
-        if actualURL[a + 13:a + 15] not in valid_cat:
+        if actual_url[a + 13:a + 15] not in valid_cat:
             return 0, "Not valid results"
     else:
         max_num_of_res = 1
@@ -110,12 +106,12 @@ def get_product_page(url: str, max_num_of_res: int = 5, args: dict = {}) -> (lis
                 {
                     'name' : title if max_num_of_res == 1 else o['title'],
                     'price': price_to_float(o.getText()),
-                    'url'  : "https://www.skroutz.gr" + o['href'] if max_num_of_res > 1 else actualURL,
+                    'url'  : "https://www.skroutz.gr" + o['href'] if max_num_of_res > 1 else actual_url,
                     '_'    : soup,
                 }
             )
         return ret_val, title
-    except:
+    except ...:
         return [], "Unkown error"
 
 

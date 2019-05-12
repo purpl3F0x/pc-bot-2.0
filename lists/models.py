@@ -1,8 +1,14 @@
+from django.core.exceptions import ValidationError
 from django.db import models
 from markdownx.models import MarkdownxField
 
 import common as common
 import parts.models
+
+
+def image_url_validator(url):
+    if not url.endswith((".png", ".jpg", ".jpeg", ".gif")):
+        raise ValidationError('Not image url')
 
 
 class Build(models.Model):
@@ -17,6 +23,7 @@ class Build(models.Model):
     case = models.ManyToManyField(parts.models.Case, blank=True)
     others = models.ManyToManyField(parts.models.Part, blank=True)
     price = models.IntegerField(blank=True, default=0)
+    image = models.URLField(blank=True, null=True, validators=[image_url_validator])
     description = MarkdownxField(blank=True)
 
     def update_price(self, force=False):
@@ -58,7 +65,8 @@ class Build(models.Model):
         embed = common.generate_embed(
             title=self.name,
             description=self.description if self.description else 'rand_quote',
-            add_images=True
+            add_images=True,
+            thumbnail=self.image if self.image else common.dave_gif
         )
 
         embed.set_author(name=str(self.price) + ' 💶', url=common.hal_url, icon_url=common.hal_gif)

@@ -46,22 +46,22 @@ async def pc(context, price: int, *args):
     :param args: optional arguments
     :return:
     """
-    text, mentions = common.split_mentions(args)
+    # text, mentions = common.split_mentions(args)
     answer = db_access.get_builds(price)
 
     if not answer:
         await common.react_sad(bot, context.message)
 
     for i in answer:
-        await bot.say(embed=i.get_as_embed())
+        await context.message.channel.send(embed=i.get_as_embed())
 
 
-
-@bot.command(pass_context=False)
-async def info():
+@bot.command(pass_context=True)
+async def info(context):
     """
     Prints bot info
 
+    :param context: msg context
     :return:
     """
 
@@ -85,7 +85,7 @@ async def info():
         """
 
     embed = discord.Embed(description=res, color=0x836cff)
-    await bot.say(embed=embed)
+    await context.message.channel.send(embed=embed)
 
     return
 
@@ -102,13 +102,13 @@ async def blacklist(context, member: discord.Member, reason=""):
     """
 
     if context.message.author.id not in db_access.get_admins():
-        await bot.add_reaction(context.message, '\U0001F622')
-        await bot.add_reaction(context.message, '\U0001F5A4')
-        await bot.add_reaction(context.message, '\U0001F4DD')
+        await context.message.add_reaction('\U0001F622')
+        await context.message.add_reaction('\U0001F5A4')
+        await context.message.add_reaction('\U0001F4DD')
         return
 
     db_access.black_list_user(member.id, reason)
-    await bot.add_reaction(context.message, '\U0001F44D')
+    await context.message.channel.send(context.message, '\U0001F44D')
 
 
 @bot.command(pass_context=True)
@@ -126,7 +126,7 @@ async def hal(context, *args):
 
     embed = discord.Embed(description=" [%s](%s)" % (" ".join(text), url), color=0x836cff)
     embed.set_footer(text="\'Cause I'm just a teenage dirtbag, baby...")
-    await bot.say(embed=embed)
+    await context.message.channel.send(embed=embed)
 
 
 @bot.command(pass_context=True)
@@ -141,7 +141,7 @@ async def helpme(context, *, arg):
 
     h = db_access.helper_fuzzy_match(arg)
     if h is not None:
-        await bot.say(embed=h.get_embed())
+        await context.message.channel.send(embed=h.get_embed())
 
 
 @bot.command(pass_context=True)
@@ -161,7 +161,7 @@ async def skroutz(context, *args):
     for x in args:
         (q_args, cmd_args)[x.startswith('--')].append(x)
         if x.startswith('--help'):
-            await bot.say(
+            await context.message.channel.send(
                 "```php\nskroutz HALP\n\n<optional args>\n"
                 "'--pop':         sort by popularity (default)\n"
                 "'--price':       sort by price\n"
@@ -195,7 +195,7 @@ async def skroutz(context, *args):
     url = skrtz.search_url + query
     res, msg = skrtz.get_product_page(url, args=d)
     if not res:
-        await bot.add_reaction(context.message, '\U0001F623')
+        await context.message.add_reaction('\U0001F623')
     else:
         ans = generate_embed("Query Results Thank ~~GOD~~ HAL", add_images=False)
         ans.description += '\n\n'
@@ -206,7 +206,7 @@ async def skroutz(context, *args):
 
         ans.add_field(name="|query took|", value='{}'.format(time.time() - start), inline=False)
 
-        await bot.say(embed=ans)
+        await context.message.channel.send(embed=ans)
     return
 
 
@@ -243,7 +243,7 @@ async def per(context, tp, price: int, *args):
     for _ in res:
         e.add_field(name=_.name, value="[{0}]({1})".format(str(_.price) + ' :euro:', _.url), inline=False)
 
-    await bot.say(embed=e)
+    await context.message.channel.send(embed=e)
 
     return
 
@@ -288,9 +288,12 @@ async def monitor(context, price: int, resolution: str = '', refresh_rate: int =
             ),
             inline=False
         )
-    await bot.say(embed=e)
+    await context.message.channel.send(embed=e)
 
     return
+
+
+last_msg = ''
 
 
 @bot.event
@@ -301,23 +304,39 @@ async def on_message(message):
     :param message: received message from discord
     :return:
     """
-    if message.channel.is_private and message.author.id != bot.user.id and message.channel.id != "468208302875213825":
-        quote = quotes.quote().replace("%user", ("<@" + message.author.id + ">"))
+    if isinstance(message.channel,
+                  discord.DMChannel) and message.author.id != bot.user.id and message.channel.id != "468208302875213825":
+        quote = quotes.quote().replace("%user", ("<@" + str(message.author.id) + ">"))
         await __import__('asyncio').sleep(2)
-        await bot.send_message(message.channel, quote)
+        await message.channel.send(quote)
 
     else:
         # Check if message in whitelisted channel
-        if message.channel.id not in whitelist:
+        if str(message.channel.id) not in whitelist:
             return
-        logging.info((str(__import__('time').time()) + " " + message.author.id + " : " + str(message.content)))
+        logging.info((str(__import__('time').time()) + " " + str(message.author.id) + " : " + str(message.content)))
 
-        if message.author.id in db_access.get_black_list():
-            await bot.add_reaction(message, '\U0001F622')
-            await bot.add_reaction(message, '\U0001F5A4')
-            await bot.add_reaction(message, '\U0001F4DD')
+        if str(message.author.id) in db_access.get_black_list():
+            await message.add_reactions('\U0001F622')
+            await message.add_reactions('\U0001F5A4')
+            await message.add_reaction('\U0001F4DD')
             return
-        await bot.process_commands(message)
+
+        if bot.user in message.mentions:
+            if str(message.author.id) in db_access.get_admins():
+                from fuzzywuzzy import fuzz
+
+                msg = __import__('re').sub(r" ?\<\@[^)]+\>", "", str(message.content))
+                if fuzz.ratio('you hate everything about me, why do you love me?', msg.lower()) > 85:
+                    await message.channel.send('Only when I stop to think about it, I hate everything about you!')
+
+                if fuzz.ratio('So tell me now, If this ain\'t love, How do we get out?', msg.lower()) > 85:
+                    await message.channel.send('Only when I stop to think about it,\nI hate everything about you!')
+
+                if fuzz.ratio('I say the damnedest things when you\'re on top of me', msg.lower()) > 85:
+                    await message.channel.send('You sa')
+
+    await bot.process_commands(message)
 
     return
 
@@ -339,8 +358,10 @@ async def on_ready():
 
     # Set rich presence
     await bot.change_presence(
-        game=discord.Game(
-            name="I'm Sorry Dave!"
+        activity=discord.Streaming(
+            name="I'm Sorry Dave! ;(",
+            url='',
+            details='Booooo'
         )
     )
 

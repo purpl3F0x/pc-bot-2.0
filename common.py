@@ -44,7 +44,8 @@ facts = [
 ]
 
 
-def generate_embed(title: str = "", description: str = 'rand_quote', add_images: bool = True):
+def generate_embed(title: str = "", description: str = 'rand_quote', add_images: bool = True,
+                   thumbnail: str = dave_gif):
     """
     Generator for prototype discord embed message
 
@@ -59,7 +60,7 @@ def generate_embed(title: str = "", description: str = 'rand_quote', add_images:
     embed = Embed(title=title, colour=Colour(0x8567ff), url=hal_url,
                   description=description)
     if add_images:
-        embed.set_thumbnail(url=dave_gif)
+        embed.set_thumbnail(url=thumbnail)
     embed.set_author(name="Hal", url="http://3.120.5.250:8000/",
                      icon_url=hal_gif)
     embed.set_footer(text=choice(facts))

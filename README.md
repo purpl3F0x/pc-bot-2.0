@@ -1,6 +1,6 @@
 # pc-bot
 
-full working bot on Gramers discrod [server](https://discord.gg/SdT8XZg).
+full working bot on Gramers discord [server](https://discord.gg/SdT8XZg).
 
 
 ### Instructions 
